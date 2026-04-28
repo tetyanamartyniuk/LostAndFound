@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог речей</title>
+
+    <style>
+        /* Загальні налаштування */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a202c;
+            margin-bottom: 30px;
+        }
+
+        /* Стилізація фільтрів */
+        .filters-container {
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e0;
+            box-sizing: border-box; /* Важливо для відступів */
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #4c51bf;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #434190;
+        }
+
+        /* СІТКА ТОВАРІВ (3 В РЯД) */
+        .items-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            /* Створюємо 3 колонки */
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 25px;
+        }
+
+        /* Картка товару */
+        .item-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Фото товару */
+        .item-card img {
+            width: 100%;
+            height: 220px; /* Фіксована висота */
+            object-fit: cover; /* Фото заповнює блок, не розтягуючись */
+            display: block;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        /* Текст всередині картки */
+        .item-details {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .item-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        /* Адаптивність (для мобільних) */
+        @media (max-width: 900px) {
+            .items-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 в ряд на планшетах */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .items-grid {
+                grid-template-columns: 1fr; /* 1 в ряд на телефонах */
+            }
+            .filters-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Список знайдених та загублених речей</h1>
+
+    <div class="filters-container">
+        <form action="/items/status-filter" method="get">
+            <label>Статус</label>
+            <select name="status">
+                <option value="">Оберіть статус</option>
+                <option value="lost">Загублено</option>
+                <option value="found">Знайдено</option>
+            </select>
+            <button type="submit">Фільтрувати</button>
+        </form>
+
+        <form action="/items/date-filter" method="get">
+            <label>Початкова дата</label>
+            <input type="date" name="startDate">
+            
+            <label>Кінцева дата</label>
+            <input type="date" name="endDate">
+            
+            <button type="submit">Шукати за датою</button>
+        </form>
+
+        <form action="/items/place-filter" method="get">
+            <label>Регіон / Місто</label>
+            <input type="text" name="place" placeholder="Наприклад: Київ">
+            <button type="submit">Знайти за місцем</button>
+        </form>
+    </div>
+
+    <div class="items-grid">
+        <% items.forEach((el) => { %>
+            <a class="item-card" href="/items/<%= el.id %>/page">
+                <img src="/uploads/<%= el.image %>" alt="<%= el.title %>">
+                <div class="item-details">
+                    <p class="item-title"><%= el.title %></p>
+                </div>
+            </a>
+        <% }) %>
+    </div>
+
+</body>
+</html>

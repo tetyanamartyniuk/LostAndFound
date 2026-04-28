@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="form">
+    <label>
+        <input type="text" name="title" placeholder="title">
+    </label>
+    <label>
+        <input type="text" name="description" placeholder="description">
+    </label>
+    <label>
+        <input type="text" placeholder="place" name="place">
+    </label>
+    <label>
+        <input type="date" placeholder="foundAt" name="foundAt">
+    </label>
+    <label>
+        <input type="text" placeholder="lost" name="status">
+    </label>
+    <button>Submit</button>
+</form>
+<script>
+    document.getElementById('form').addEventListener('submit', async event =>{
+        event.preventDefault()
+
+        const formData = new FormData(event.target)
+        await fetch(`/items/<%= id %>`, {
+        method: "PUT",
+        body: JSON.stringify(Object.fromEntries(formData)),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    })
+    
+</script>
+</body>
+</html>

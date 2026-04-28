@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal account</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 320px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .username {
+            color: #667eea;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #667eea;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .secondary {
+            background: #e2e8f0;
+            color: #333;
+        }
+
+        .secondary:hover {
+            background: #cbd5e0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>
+            Hello, <span class="username"><%= user.username %></span>
+        </h1>
+
+        <div class="buttons">
+            <button onclick="window.location.href='/items/my'">
+                📦 My items
+            </button>
+
+            <button onclick="window.location.href='/items/addItem'">
+                ➕ Add item
+            </button>
+
+            <button class="secondary" onclick="window.location.href='/main-page'">
+                ⬅ Back to main
+            </button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/items" method="post" enctype="multipart/form-data">
+    <label>
+        <input type="text" name="title" placeholder="title">
+    </label>
+    <label>
+        <input type="text" name="description" placeholder="description">
+    </label>
+    <label>
+        <input type="place" placeholder="place" name="place">
+    </label>
+    <label>
+        <input type="date" placeholder="foundAt" name="foundAt">
+    </label>
+    <label>
+        <select name="status">
+            <option value="lost"></option>
+            <option value="lost" name="lost">lost</option>
+            <option value="found" name="found">found</option>
+        </select>
+    </label>
+    <label>
+        <input type="file" name="image" placeholder="Drag photo here">
+    </label>
+    <button>Submit</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <h1>Hello from ejs</h1>
+    <form action="/register" method="post">
+        <label>
+            <input type="text" id="email" name="email" placeholder="your email" required>
+        </label>
+        <label>
+            <input type="password" id="password" name="password" placeholder="your password" required><!-- name це ключ в req.body -->
+        </label>
+        <label>
+            <input type="text" id="username" name="username" placeholder="your username" required>
+        </label>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
