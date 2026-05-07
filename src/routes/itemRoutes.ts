@@ -2,6 +2,7 @@ import express from "express";
 import { itemController } from "../controllers/ItemController.js";
 import { checkToken } from "../middlewares/authMiddleware.js";
 import {
+  addItemPageRenderer,
   filteredByPlaceRenderer,
   filtredByDateRenderer,
   filtredByStatusRenderer,
@@ -22,9 +23,7 @@ itemRouter.get("/", itemController.getItems);
 
 itemRouter.get("/my", checkToken, itemController.getMyItems);
 
-itemRouter.get("/addItem", upload.single("image"), (req, res) => {
-  res.render("addItemPage");
-});
+itemRouter.get("/addItem", addItemPageRenderer);
 
 itemRouter.get("/items-page", itemsPageRenderer);
 
@@ -33,7 +32,7 @@ itemRouter.get("/updateItemPage/:id", updateItemPageRenderer);
 itemRouter.post(
   "/",
   checkToken,
-  upload.single("image"),
+  upload.array("image", 3),
   validateInput(itemSchema),
   itemController.addItems,
 );
@@ -56,7 +55,13 @@ itemRouter.get(
   filtredByDateRenderer,
 );
 
-itemRouter.put("/:id", checkToken, itemController.updateItems);
+itemRouter.put(
+  "/:id",
+  checkToken,
+  upload.array("image", 3),
+  validateInput(itemSchema),
+  itemController.updateItems,
+);
 
 itemRouter.get("/:id/page", itemPageRenderer);
 

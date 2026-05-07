@@ -13,6 +13,8 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRoutes.js";
 import itemRouter from "./routes/itemRoutes.js";
 import multer from "multer";
+import { adminRouter } from "./routes/adminRoutes.js";
+import { categoryRouter } from "./routes/adminRoutes.js";
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.get("/main-page", (req: Request, res: Response) => {
 app.use("/user", userRouter);
 app.use("/", authRouter);
 app.use("/items", itemRouter);
+app.use("/admin", adminRouter);
+app.use("/category", categoryRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Сторінку не знайдено" });

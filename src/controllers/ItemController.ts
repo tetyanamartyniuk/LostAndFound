@@ -13,10 +13,18 @@ class ItemController {
   constructor(private service: typeof itemService) {}
 
   getItems = async (req: Request, res: Response): Promise<Response> => {
-    const items = await this.service.getItems();
+    const items = await this.service.getApprovedItems();
     return res.status(200).json({
       success: true,
       items: items,
+    });
+  };
+
+  getPendingItems = async (req: Request, res: Response) => {
+    const pendingItems = await this.service.getPendingItems();
+    return res.status(200).json({
+      success: true,
+      pendingItems: pendingItems,
     });
   };
 
@@ -54,11 +62,10 @@ class ItemController {
     req: Request<{}, {}, CreateItemBody>,
     res: Response,
   ): Promise<Response> => {
-    console.log("FILE:", req.file);
-    console.log("BODY:", req.body);
     req.body.userId = req.user!.id;
-    const image = req.file?.filename;
-    const savedItem = await this.service.addItem(req.body, image!);
+    const files = req.files as Express.Multer.File[];
+    const images = files.map((file: Express.Multer.File) => file.filename);
+    const savedItem = await this.service.addItem(req.body, images!);
     return res.status(201).json({
       success: true,
       item: savedItem,
@@ -104,8 +111,9 @@ class ItemController {
     if (isNaN(id)) {
       return res.status(400).json({ message: "Invalid id format" });
     }
-    const updatedItem = await this.service.updateItem(id, req.body);
-
+    const files = req.files as Express.Multer.File[];
+    const images = files.map((file) => file.filename);
+    const updatedItem = await this.service.updateItem(id, req.body, images);
     return res.status(200).json({
       success: true,
       updatedItem: updatedItem,

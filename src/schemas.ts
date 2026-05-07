@@ -1,5 +1,5 @@
 import { start } from "node:repl";
-import { z } from "zod";
+import { boolean, z } from "zod";
 
 export const userRegisterSchema = z.object({
   email: z.string().email({ error: "Email is not valid" }),
@@ -44,19 +44,28 @@ export const itemSchema = z.object({
   status: z.enum(["lost", "found"], {
     error: "Status must be either 'lost' or 'found'",
   }),
+  categoryId: z.preprocess(
+    (val) => (val === "" || val === undefined ? null : val),
+    z.coerce.number().nullable(),
+  ),
 });
 
-export const filtredByDateSchema = z.object({
-  startDate: z.coerce
-    .date()
-    .refine(
-      (date) => date <= new Date(),
-      "Дата не може бути в майбутньмоу бро",
-    ),
-  endDate: z.coerce
-    .date()
-    .refine(
-      (date) => date <= new Date(),
-      "Дата не може бути в майбутньмоу бро",
-    ),
-});
+export const filtredByDateSchema = z
+  .object({
+    startDate: z.coerce
+      .date()
+      .refine(
+        (date) => date <= new Date(),
+        "Дата не може бути в майбутньмоу бро",
+      ),
+    endDate: z.coerce
+      .date()
+      .refine(
+        (date) => date <= new Date(),
+        "Дата не може бути в майбутньмоу бро",
+      ),
+  })
+  .refine((data) => data.startDate <= data.endDate, {
+    message: "Початкова дата не може бути пізнішою за кінцеву, бро",
+    path: ["startDate"],
+  });

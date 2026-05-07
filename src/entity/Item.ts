@@ -10,10 +10,17 @@ import {
   JoinColumn,
 } from "typeorm";
 import { User } from "./User.js";
+import { Category } from "./Category.js";
 export enum StatusEnum {
   LOST = "lost",
   FOUND = "found",
   RETURNED = "returned",
+}
+
+export enum isApproved {
+  APPROVED = "approved",
+  DISAPPROVED = "disapproved",
+  PENDING = "pending",
 }
 
 @Entity()
@@ -68,8 +75,26 @@ export class Item {
   user!: User;
 
   @Column({
+    type: "simple-array",
+    nullable: true,
+  })
+  image?: string[] | null;
+
+  @Column({
+    type: "enum",
+    enum: isApproved,
+    default: isApproved.PENDING,
+    nullable: false,
+  })
+  isApproved!: isApproved;
+
+  @ManyToOne(() => Category, (category) => category.items)
+  @JoinColumn({ name: "categoryId" })
+  category?: Category;
+
+  @Column({
     type: "varchar",
     nullable: true,
   })
-  image?: string | null;
+  categoryId!: number;
 }

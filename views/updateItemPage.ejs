@@ -1,43 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <form id="form">
-    <label>
-        <input type="text" name="title" placeholder="title">
-    </label>
-    <label>
-        <input type="text" name="description" placeholder="description">
-    </label>
-    <label>
-        <input type="text" placeholder="place" name="place">
-    </label>
-    <label>
-        <input type="date" placeholder="foundAt" name="foundAt">
-    </label>
-    <label>
-        <input type="text" placeholder="lost" name="status">
-    </label>
-    <button>Submit</button>
-</form>
-<script>
-    document.getElementById('form').addEventListener('submit', async event =>{
-        event.preventDefault()
+  </head>
+  <body>
+    <form id="form" enctype="multipart/form-data" method="post">
+      <label>
+        <input type="text" name="title" placeholder="title" />
+      </label>
+      <label>
+        <input type="text" name="description" placeholder="description" />
+      </label>
+      <label>
+        <input type="text" placeholder="place" name="place" />
+      </label>
+      <label>
+        <input type="date" placeholder="foundAt" name="foundAt" />
+      </label>
+      <select name="status">
+        <option value="lost">Загублено</option>
+        <option value="found">Знайдено</option>
+      </select>
+      <label>
+        <input type="file" name="image" multiple />
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      document
+        .getElementById("form")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
 
-        const formData = new FormData(event.target)
-        await fetch(`/items/<%= id %>`, {
-        method: "PUT",
-        body: JSON.stringify(Object.fromEntries(formData)),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-    })
-    
-</script>
-</body>
+          const formData = new FormData(event.target);
+          const response = await fetch(`/items/<%= id %>`, {
+            method: "PUT",
+            body: formData,
+          });
+          if (response.ok) {
+            const result = await response.json();
+            console.log("Фронт: Успіх!", result);
+            window.location.href = `/items/<%= id %>/page`;
+          } else {
+            const errorText = await response.text();
+            console.error("Фронт: Сервер повернув помилку:", errorText);
+            alert("Помилка при оновленні");
+          }
+        });
+    </script>
+  </body>
 </html>

@@ -8,7 +8,7 @@ export type Item = {
   foundAt: Date;
   status: StatusEnum;
   userId: number;
-  image?: string | null;
+  image?: string[] | null;
 };
 
 export type CreateItemBody = {
@@ -18,5 +18,6 @@ export type CreateItemBody = {
   foundAt: Date;
   status: StatusEnum;
   userId: number;
+  categoryId: number;
   //image?: string | null;
 };

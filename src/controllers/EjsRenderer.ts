@@ -8,10 +8,16 @@ import { validateStatusInput } from "../middlewares/inputMiddleware.js";
 import { userService } from "../services/UserService.js";
 import type { AuthRequest } from "../middlewares/authMiddleware.js";
 import { UnauthorizedError } from "../exceptions/exceptions.js";
+import { categoryService } from "../services/CategoryService.js";
 
 export async function itemsPageRenderer(req: Request, res: Response) {
-  const items = await itemService.getItems();
+  const items = await itemService.getApprovedItems();
   res.render("items", { items });
+}
+
+export async function addItemPageRenderer(req: Request, res: Response) {
+  const categories = await categoryService.getCategories();
+  res.render("addItemPage", { categories });
 }
 
 export async function filtredByStatusRenderer(req: Request, res: Response) {
@@ -53,6 +59,11 @@ export async function updateItemPageRenderer(
   const id = Number(req.params.id);
   const item = await itemService.getItemById(id);
   res.render("updateItemPage", item);
+}
+
+export async function pendingItemsPageRenderer(req: Request, res: Response) {
+  const pendingItems = await itemService.getPendingItems();
+  res.render("admin-panel", { pendingItems });
 }
 
 export async function userAccountRenderer(req: AuthRequest, res: Response) {

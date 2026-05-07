@@ -1,16 +1,29 @@
 import { Between, type Repository } from "typeorm";
-import type { Item, StatusEnum } from "../entity/Item.js";
+import { isApproved, type Item, type StatusEnum } from "../entity/Item.js";
 import { NotFoundError } from "../exceptions/exceptions.js";
 import { itemRepo } from "../repos/itemRepository.js";
 import type { CreateItemBody } from "../types/item.js";
 import { Raw } from "typeorm";
+import { th } from "zod/locales";
 
 class ItemService {
   constructor(private itemRepo: Repository<Item>) {}
 
-  async getItems(): Promise<Item[]> {
-    return await this.itemRepo.find();
+  async getApprovedItems(): Promise<Item[]> {
+    return await this.itemRepo.find({
+      where: {
+        isApproved: isApproved.APPROVED,
+      },
+    });
   }
+
+  async getPendingItems() {
+    return await this.itemRepo.find({
+      where: { isApproved: isApproved.PENDING },
+    });
+  }
+
+  //async getDisapprovedItems
 
   async getMyItems(id: number): Promise<Item[]> {
     const myItems = await this.itemRepo.find({ where: { userId: id } });
@@ -26,11 +39,12 @@ class ItemService {
     return item;
   }
 
-  async addItem(item: CreateItemBody, image: string | null): Promise<Item> {
+  async addItem(item: CreateItemBody, image: string[] | null): Promise<Item> {
     const itemData = this.itemRepo.create({
       ...item,
       image,
     });
+    console.log(itemData + "jfkfkfk");
 
     return await this.itemRepo.save(itemData);
   }
@@ -45,30 +59,17 @@ class ItemService {
   async updateItem(
     id: number,
     itemData: Partial<CreateItemBody>,
+    images: string[],
   ): Promise<Item> {
-    //почистити, бо тепер в мене є zod
     const itemFromDB = await this.getItemById(id);
 
-    const updatedData: Partial<CreateItemBody> = {};
-
-    if (itemData.title !== undefined) {
-      updatedData.title = itemData.title;
-    }
-    if (itemData.description !== undefined) {
-      updatedData.description = itemData.description;
-    }
-    if (itemData.place !== undefined) {
-      updatedData.place = itemData.place;
-    }
-    if (itemData.foundAt !== undefined) {
-      updatedData.foundAt = itemData.foundAt;
-    }
-    if (itemData.status !== undefined) {
-      updatedData.status = itemData.status;
-    }
+    const updatedData = {
+      ...itemData,
+      ...(images.length > 0 && { image: images }),
+    };
 
     const updatedItem = this.itemRepo.merge(itemFromDB, updatedData);
-    return this.itemRepo.save(updatedItem);
+    return await this.itemRepo.save(updatedItem);
   }
 
   async filterByDate(startDate: Date, endDate: Date): Promise<Item[]> {

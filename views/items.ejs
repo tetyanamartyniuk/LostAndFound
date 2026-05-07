@@ -178,7 +178,11 @@
     <div class="items-grid">
         <% items.forEach((el) => { %>
             <a class="item-card" href="/items/<%= el.id %>/page">
-                <img src="/uploads/<%= el.image %>" alt="<%= el.title %>">
+                <% if (el.image && Array.isArray(el.image)) {%>
+                    <img src="/uploads/<%= el.image[0] %>" alt="<%= el.title %>">
+                <%}else{%>
+                    <img src="/uploads/blankimage.jpg" alt="blank-image">
+                <% } %>
                 <div class="item-details">
                     <p class="item-title"><%= el.title %></p>
                 </div>
