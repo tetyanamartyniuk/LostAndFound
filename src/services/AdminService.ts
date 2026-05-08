@@ -4,6 +4,7 @@ import { itemRepo } from "../repos/itemRepository.js";
 import { NotFoundError } from "../exceptions/exceptions.js";
 
 class AdminService {
+  //зробити приватний допоміжний метод, який оновлює isApproved і кидає оці помилки NotFound
   constructor(private itemRepo: Repository<Item>) {}
 
   async approveItem(id: number) {

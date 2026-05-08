@@ -6,9 +6,11 @@ import {
   Column,
   OneToMany,
   Check,
+  JoinColumn,
 } from "typeorm";
 import { RefreshToken } from "./RefreshToken.js";
 import { Item } from "./Item.js";
+import { Message } from "./Message.js";
 
 export enum UserRole {
   //можна не типом, а масивом прямо в сутності
@@ -57,4 +59,10 @@ export class User {
 
   @OneToMany(() => Item, (item) => item.user)
   items!: Item[];
+
+  @OneToMany(() => Message, (message) => message.receiverId)
+  receivedMessages!: Message[];
+
+  @OneToMany(() => Message, (message) => message.senderId)
+  sentMessages!: Message[];
 }

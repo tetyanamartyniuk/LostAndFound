@@ -155,6 +155,17 @@
       <a href="/items/items-page" class="back-link">← Повернутися до списку</a>
     </div>
 
+    <form action="/user/send-message/<%= id%>" , method="post">
+      <label>
+        <input
+          type="text"
+          name="text"
+          placeholder="Введіть сюди своє повідомлення"
+        />
+      </label>
+      <button>Написати</button>
+    </form>
+    
     <script>
       async function deleteItem(id) {
         if (confirm("Ви впевнені, що хочете видалити цю річ?")) {

@@ -5,6 +5,7 @@ import { User } from "../entity/User.js";
 import { RefreshToken } from "../entity/RefreshToken.js";
 import { Item } from "../entity/Item.js";
 import { Category } from "../entity/Category.js";
+import { Message } from "../entity/Message.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -12,7 +13,7 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   database: process.env.DB_NAME!,
   logging: true,
-  entities: [User, RefreshToken, Item, Category],
+  entities: [User, RefreshToken, Item, Category, Message],
   host: process.env.DB_HOST || "localhost",
   password: process.env.DB_PASSWORD || "",
   port: Number(process.env.DB_PORT) || 5432,

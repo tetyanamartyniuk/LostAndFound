@@ -5,6 +5,7 @@ import { asyncErrorHandler } from "../middlewares/asyncHandler.js";
 import { userController } from "../controllers/UserController.js";
 import { userAccountRenderer } from "../controllers/EjsRenderer.js";
 import { checkToken } from "../middlewares/authMiddleware.js";
+import { messageController } from "../controllers/MessageController.js";
 
 const userRouter = express.Router();
 
@@ -17,5 +18,13 @@ userRouter.get("/users/:id", asyncErrorHandler(userController.getUserById));
 userRouter.delete("/users/:id", asyncErrorHandler(userController.deleteUser));
 
 userRouter.put("/users/:id", asyncErrorHandler(userController.updateuser));
+
+userRouter.post(
+  "/send-message/:itemId",
+  checkToken,
+  messageController.createMessage,
+);
+
+userRouter.get("/my-messages", checkToken, messageController.getMyMessages);
 
 export default userRouter;
