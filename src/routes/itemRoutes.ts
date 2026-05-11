@@ -63,7 +63,7 @@ itemRouter.put(
   itemController.updateItems,
 );
 
-itemRouter.get("/:id/page", itemPageRenderer);
+itemRouter.get("/:id/page", checkToken, itemPageRenderer);
 
 itemRouter.get("/:id", itemController.getItemById);
 

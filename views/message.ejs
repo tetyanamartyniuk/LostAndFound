@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="window.location.href = '/user/my-messages'">
+      Всі повідомлення
+    </button>
+    <button onclick="window.location.href = '/user/sent'">Надіслані</button>
+    <button onclick="window.location.href = '/user/received'">Отримані</button>
+    <div class="active-chat-container">
+      <form id="form">
+        <label>
+          <input
+            type="text"
+            name="text"
+            placeholder="Введіть сюди своє повідомлення"
+            id="messageText"
+          />
+        </label>
+        <button>Написати</button>
+      </form>
+      <div id="messagesContainer">
+        <% if(messages && messages.length>0){%>
+      <% messages.forEach((el) =>{%>
+        <h1><%=el.text%></h1>
+      <%}) %>
+    <%}else{%>
+      <h1>У вас поки нема повідомлень</h1>
+    <%}%>
+      </div>
+    </div>
+    <script>
+      // Знаходимо форму та контейнер для повідомлень на сторінці за їхніми ID
+      const form = document.getElementById("form");
+      const messagesContainer = document.getElementById("messagesContainer");
+
+      // Додаємо обробник подій. 'submit' спрацьовує, коли юзер тисне кнопку відправки
+      form.addEventListener("submit", async (e) => {
+        // Зупиняємо стандартну поведінку форми, щоб сторінка не перезавантажувалась
+        e.preventDefault();
+
+        // Знаходимо поле вводу тексту та дістаємо з нього те, що написав юзер
+        const textInput = document.getElementById("messageText");
+        const textValue = textInput.value;
+
+        try {
+          // Відправляємо асинхронний POST-запит на сервер.
+          // <%= item.id%> підставиться шаблонізатором (EJS) на бекенді
+          const response = await fetch("/user/send-message/<%= item.id%>", {
+            method: "POST", // Вказуємо метод запиту
+            headers: {
+              // Обов'язково кажемо серверу, що відправляємо дані у форматі JSON
+              "Content-Type": "application/json",
+            },
+            // Перетворюємо наш об'єкт з текстом у JSON-рядок для відправки
+            body: JSON.stringify({ text: textValue }),
+          });
+
+          // Перевіряємо, чи сервер відповів успішно (статуси 200-299)
+          if (response.ok) {
+            // Розпаковуємо відповідь від сервера з формату JSON
+            const responseData = await response.json();
+
+            // Створюємо новий HTML-елемент (div) для нового повідомлення
+            const newMessage = document.createElement("div");
+
+            // Записуємо в цей div текст, який нам щойно повернув сервер
+            newMessage.textContent = responseData.message.text;
+
+            // Вставляємо створений div з повідомленням у кінець списку нашого чату
+            messagesContainer.appendChild(newMessage);
+
+            // Очищаємо поле вводу у формі, щоб можна було писати наступне повідомлення
+            form.reset();
+          } else {
+            // Якщо сервер повернув помилку (наприклад, 400 Bad Request або 500)
+            alert("Помилка при відправці");
+          }
+        } catch (error) {
+          // Цей блок спрацює, якщо запит взагалі не дійшов до сервера
+          // (наприклад, сервер "впав" або в користувача зник інтернет)
+          alert("Помилка мережі");
+        }
+      });
+    </script>
+  </body>
+</html>

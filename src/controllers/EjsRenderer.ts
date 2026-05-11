@@ -9,6 +9,7 @@ import { userService } from "../services/UserService.js";
 import type { AuthRequest } from "../middlewares/authMiddleware.js";
 import { UnauthorizedError } from "../exceptions/exceptions.js";
 import { categoryService } from "../services/CategoryService.js";
+import { messageService } from "../services/MessageService.js";
 
 export async function itemsPageRenderer(req: Request, res: Response) {
   const items = await itemService.getApprovedItems();
@@ -49,7 +50,8 @@ export async function filteredByPlaceRenderer(req: Request, res: Response) {
 export async function itemPageRenderer(req: Request<IdParams>, res: Response) {
   const id = Number(req.params.id);
   const item = await itemService.getItemById(id);
-  res.render("item", item);
+  const messages = await messageService.getChat(req.user!.id, id);
+  res.render("item", { item, messages });
 }
 
 export async function updateItemPageRenderer(
@@ -76,4 +78,15 @@ export async function userAccountRenderer(req: AuthRequest, res: Response) {
   console.log(id);
   const user = await userService.getUserById(id);
   res.render("account", { user });
+}
+
+export async function renderChatPage(req: Request<IdParams>, res: Response) {
+  const id = Number(req.params.id);
+  const item = await itemService.getItemById(id);
+  const messages = await messageService.getDialogue(
+    req.user!.id,
+    item.userId,
+    id,
+  );
+  res.render("message", { item, messages });
 }

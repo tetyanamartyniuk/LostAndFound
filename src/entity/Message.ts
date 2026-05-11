@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User.js";
+import { Item } from "./Item.js";
 
 @Entity()
 @Check(`"senderId" <> "receiverId"`)
@@ -51,4 +52,14 @@ export class Message {
     type: "integer",
   })
   senderId!: number;
+
+  @ManyToOne(() => Item, (item) => item.messages)
+  @JoinColumn({ name: "itemId" })
+  item!: Item;
+
+  @Column({
+    type: "integer",
+    nullable: false,
+  })
+  itemId!: number;
 }

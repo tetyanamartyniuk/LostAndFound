@@ -8,9 +8,11 @@ import {
   Index,
   Check,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 import { User } from "./User.js";
 import { Category } from "./Category.js";
+import { Message } from "./Message.js";
 export enum StatusEnum {
   LOST = "lost",
   FOUND = "found",
@@ -97,4 +99,7 @@ export class Item {
     nullable: true,
   })
   categoryId!: number;
+
+  @OneToMany(() => Message, (message) => message.itemId)
+  messages!: Message[];
 }

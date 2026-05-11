@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
+    <title><%= item.title %></title>
     <style>
       body {
         margin: 0;
@@ -122,32 +122,32 @@
 
   <body>
     <div class="container">
-        <% if (image && image.length > 0) {%>
-        <% image.forEach(im => {%>
-        <img src="/uploads/<%= im %>" alt="<%= title %>" class="item-image" />
+        <% if (item.image && item.image.length > 0) {%>
+        <% item.image.forEach(im => {%>
+        <img src="/uploads/<%= im %>" alt="<%= item.title %>" class="item-image" />
         <% })}else{ %>
-            <img src="/uploads/blankimage.jpg" alt="<%= title %>" class="item-image"> 
+            <img src="/uploads/blankimage.jpg" alt="<%= item.title %>" class="item-image"> 
         <%} %>
 
-      <h1><%= title %></h1>
+      <h1><%= item.title %></h1>
 
       <div class="info-block">
-        <p><span class="label">Опис:</span> <%= description %></p>
-        <p><span class="label">Місце:</span> <%= place %></p>
+        <p><span class="label">Опис:</span> <%= item.description %></p>
+        <p><span class="label">Місце:</span> <%= item.place %></p>
         <p>
           <span class="label">Статус:</span>
-          <span class="status"><%= status %></span>
+          <span class="status"><%= item.status %></span>
         </p>
       </div>
 
       <div class="actions">
         <button
           class="btn-update"
-          onclick="window.location.href = '/items/updateItemPage/<%= id %>'"
+          onclick="window.location.href = '/items/updateItemPage/<%= item.id %>'"
         >
           Оновити
         </button>
-        <button class="btn-delete" onclick="deleteItem('<%= id %>')">
+        <button class="btn-delete" onclick="deleteItem('<%= item.id %>')">
           Видалити
         </button>
       </div>
@@ -155,16 +155,9 @@
       <a href="/items/items-page" class="back-link">← Повернутися до списку</a>
     </div>
 
-    <form action="/user/send-message/<%= id%>" , method="post">
-      <label>
-        <input
-          type="text"
-          name="text"
-          placeholder="Введіть сюди своє повідомлення"
-        />
-      </label>
-      <button>Написати</button>
-    </form>
+    <div>
+   <button onclick="window.location.href='/user/messages/<%=item.id%>'">Написати автору</button>
+</div>
     
     <script>
       async function deleteItem(id) {

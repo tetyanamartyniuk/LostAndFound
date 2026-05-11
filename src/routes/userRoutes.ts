@@ -3,7 +3,10 @@ import express from "express";
 
 import { asyncErrorHandler } from "../middlewares/asyncHandler.js";
 import { userController } from "../controllers/UserController.js";
-import { userAccountRenderer } from "../controllers/EjsRenderer.js";
+import {
+  renderChatPage,
+  userAccountRenderer,
+} from "../controllers/EjsRenderer.js";
 import { checkToken } from "../middlewares/authMiddleware.js";
 import { messageController } from "../controllers/MessageController.js";
 
@@ -26,5 +29,11 @@ userRouter.post(
 );
 
 userRouter.get("/my-messages", checkToken, messageController.getMyMessages);
+
+userRouter.get("/received", checkToken, messageController.getReceivedMessages);
+
+userRouter.get("/sent", checkToken, messageController.getSentMessages);
+
+userRouter.get("/messages/:id", checkToken, renderChatPage);
 
 export default userRouter;

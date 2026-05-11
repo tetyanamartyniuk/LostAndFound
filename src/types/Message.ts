@@ -11,6 +11,12 @@ export type CreateMessageDTO = {
   text: string;
 };
 
+export interface CreateMessagePayload extends CreateMessageDTO {
+  senderId: number;
+  receiverId: number;
+  itemId: number;
+}
+
 export type itemId = {
   itemId: string;
 };
