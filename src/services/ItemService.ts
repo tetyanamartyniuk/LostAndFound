@@ -1,4 +1,4 @@
-import { Between, type Repository } from "typeorm";
+import { Between, ILike, type Repository } from "typeorm";
 import { isApproved, type Item, type StatusEnum } from "../entity/Item.js";
 import { NotFoundError } from "../exceptions/exceptions.js";
 import { itemRepo } from "../repos/itemRepository.js";
@@ -6,15 +6,58 @@ import type { CreateItemBody } from "../types/item.js";
 import { Raw } from "typeorm";
 import { th } from "zod/locales";
 
+export type filters = {
+  status?: "found" | "lost" | undefined;
+  endDate?: Date | undefined;
+  startDate?: Date | undefined;
+  place?: string | undefined;
+  categoryId?: number | undefined;
+  title?: string | undefined;
+};
+
 class ItemService {
   constructor(private itemRepo: Repository<Item>) {}
 
-  async getApprovedItems(): Promise<Item[]> {
+  async getApprovedItems(filters?: filters): Promise<Item[]> {
+    const whereClause = this.buildFilterWhereClause(filters);
     return await this.itemRepo.find({
-      where: {
-        isApproved: isApproved.APPROVED,
-      },
+      where: { isApproved: isApproved.APPROVED, ...whereClause },
+      order: { foundAt: "DESC" },
     });
+  }
+
+  buildFilterWhereClause(filters?: filters): Object {
+    //status
+    //endDate і обов'язково startDate
+    //place
+    //categoryId
+
+    //where: {status: status, foundAt: Between(startDate, endDate), place: place, categoryId: categoryId}
+    //const foundAt = [filters?.startDate, filters?.endDate]
+
+    const whereClause: any = {};
+    if (filters?.status) {
+      whereClause.status = filters.status;
+    }
+
+    if (filters?.place) {
+      whereClause.place = filters.place;
+    }
+
+    if (filters?.categoryId) {
+      whereClause.categoryId = filters.categoryId;
+    }
+
+    if (filters?.startDate && filters.endDate) {
+      whereClause.foundAt = Between(filters.startDate, filters.endDate);
+    }
+
+    if (filters?.title) {
+      whereClause.title = ILike(`%${filters.title}%`);
+    }
+    // const filteredItems = await this.itemRepo.find({
+    //   where: whereClause})
+    return whereClause;
   }
 
   async getPendingItems() {
@@ -50,7 +93,7 @@ class ItemService {
   }
 
   async deleteItem(id: number): Promise<void> {
-    const { affected } = await this.itemRepo.delete({ id: id });
+    const { affected } = await this.itemRepo.softDelete({ id: id });
     if (affected === 0) {
       throw new NotFoundError("Item with this id doesn`t exist");
     }

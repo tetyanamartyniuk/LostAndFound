@@ -28,11 +28,11 @@ app.get("/main-page", (req: Request, res: Response) => {
   res.render("main-page");
 });
 
-app.use("/user", userRouter);
-app.use("/", authRouter);
-app.use("/items", itemRouter);
-app.use("/admin", adminRouter);
-app.use("/category", categoryRouter);
+app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/items", itemRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/category", categoryRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Сторінку не знайдено" });

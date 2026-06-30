@@ -27,73 +27,78 @@ class MessageController {
     return id;
   };
 
-  createMessage = async (
-    req: Request<itemId, {}, CreateMessageDTO>,
-    res: Response,
-  ): Promise<Response> => {
-    const senderId = this.getUserId(req);
-    console.log("Id відправника" + senderId);
-    const itemId = Number(req.params.itemId);
-    console.log("ID речі: " + itemId);
-    if (isNaN(itemId)) {
-      throw new NotFoundError("Invalid item ID format");
-    }
-    const item = await this._itemService.getItemById(itemId);
+  // createMessage = async (
+  //   req: Request<itemId, {}, CreateMessageDTO>,
+  //   res: Response,
+  // ): Promise<Response> => {
+  //   const senderId = this.getUserId(req);
+  //   console.log("Id відправника" + senderId);
 
-    if (!item) {
-      throw new NotFoundError("Item with this ID does not exist");
-    }
+  //   const itemId = Number(req.params.itemId);
+  //   console.log("ID речі: " + itemId);
+  //   if (isNaN(itemId)) {
+  //     throw new NotFoundError("Invalid item ID format");
+  //   }
 
-    const receiverId = item.userId;
-    console.log("ID отримувача: " + receiverId);
-    if (senderId === receiverId) {
-      return res.status(400).json({
-        success: false,
-        message: "You can not send message to yourself",
-      });
-    }
-    const payload: CreateMessagePayload = {
-      ...req.body,
-      senderId,
-      receiverId,
-      itemId,
-    };
-    const savedMessage = await this._service.createMessage(payload);
-    return res.status(201).json({
-      success: true,
-      message: savedMessage,
-    });
-  };
+  //   const item = await this._itemService.getItemById(itemId);
+  //   if (!item) {
+  //     throw new NotFoundError("Item with this ID does not exist");
+  //   }
 
-  getMyMessages = async (req: Request, res: Response): Promise<Response> => {
-    const id = this.getUserId(req);
-    const messages = await this._service.getMyMessages(id);
-    return res.status(200).json({
-      success: true,
-      messages: messages,
-    });
-  };
+  //   const receiverId = item.userId; //баг((
 
-  getReceivedMessages = async (
-    req: Request,
-    res: Response,
-  ): Promise<Response> => {
-    const id = this.getUserId(req);
-    const messages = await this._service.getReceivedMessages(id);
-    return res.status(200).json({
-      success: true,
-      receivedMessages: messages,
-    });
-  };
+  //   console.log("ID отримувача: " + receiverId);
+  //   if (senderId === receiverId) {
+  //     return res.status(400).json({
+  //       success: false,
+  //       message: "You can not send a message to yourself",
+  //     });
+  //   }
+  //   const { text } = req.body;
+  //   console.log("Текст повідомлення: ", text);
+  //   const payload = {
+  //     itemId,
+  //     senderId,
+  //     receiverId,
+  //     text,
+  //   };
+  //   const { message } =
+  //     await this._chatService.startChatAndSendMessage(payload);
+  //   return res.status(201).json({
+  //     success: true,
+  //     data: message,
+  //   });
+  // };
 
-  getSentMessages = async (req: Request, res: Response): Promise<Response> => {
-    const id = this.getUserId(req);
-    const messages = await this._service.getSentMessages(id);
-    return res.status(200).json({
-      success: true,
-      sentMessages: messages,
-    });
-  };
+  // getMyMessages = async (req: Request, res: Response): Promise<Response> => {
+  //   const id = this.getUserId(req);
+  //   const messages = await this._service.getMyMessages(id);
+  //   return res.status(200).json({
+  //     success: true,
+  //     messages: messages,
+  //   });
+  // };
+
+  // getReceivedMessages = async (
+  //   req: Request,
+  //   res: Response,
+  // ): Promise<Response> => {
+  //   const id = this.getUserId(req);
+  //   const messages = await this._service.getReceivedMessages(id);
+  //   return res.status(200).json({
+  //     success: true,
+  //     receivedMessages: messages,
+  //   });
+  // };
+
+  // getSentMessages = async (req: Request, res: Response): Promise<Response> => {
+  //   const id = this.getUserId(req);
+  //   const messages = await this._service.getSentMessages(id);
+  //   return res.status(200).json({
+  //     success: true,
+  //     sentMessages: messages,
+  //   });
+  // };
 
   //   getDialogue= async (req: Request, res: Response): Promise<Response> =>{
 

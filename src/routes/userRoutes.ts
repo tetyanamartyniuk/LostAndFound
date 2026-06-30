@@ -9,10 +9,13 @@ import {
 } from "../controllers/EjsRenderer.js";
 import { checkToken } from "../middlewares/authMiddleware.js";
 import { messageController } from "../controllers/MessageController.js";
+import { validateInput } from "../middlewares/inputMiddleware.js";
+import { messageSchema } from "../schemas.js";
+import { conversationController } from "../controllers/ConversationController.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/my-account", checkToken, userAccountRenderer);
+//userRouter.get("/my-account", checkToken, userAccountRenderer);
 
 userRouter.get("/users", asyncErrorHandler(userController.getUsers)); //за допомогою bind ми жостко прив'язуємо методи до об'єкта userController
 
@@ -25,15 +28,28 @@ userRouter.put("/users/:id", asyncErrorHandler(userController.updateuser));
 userRouter.post(
   "/send-message/:itemId",
   checkToken,
-  messageController.createMessage,
+  validateInput(messageSchema),
+  conversationController.createConversationAndSendMessage,
 );
 
-userRouter.get("/my-messages", checkToken, messageController.getMyMessages);
+userRouter.get(
+  "/get-conversations",
+  checkToken,
+  conversationController.getAllConversations,
+);
 
-userRouter.get("/received", checkToken, messageController.getReceivedMessages);
+// userRouter.get("/my-messages", checkToken, messageController.getMyMessages);
 
-userRouter.get("/sent", checkToken, messageController.getSentMessages);
+// userRouter.get("/received", checkToken, messageController.getReceivedMessages);
 
-userRouter.get("/messages/:id", checkToken, renderChatPage);
+// userRouter.get("/sent", checkToken, messageController.getSentMessages);
+
+userRouter.get(
+  "/messages/:itemId",
+  checkToken,
+  conversationController.getExactConversation,
+);
+
+//userRouter.post()
 
 export default userRouter;

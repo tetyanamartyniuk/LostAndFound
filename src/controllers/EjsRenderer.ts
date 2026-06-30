@@ -10,6 +10,7 @@ import type { AuthRequest } from "../middlewares/authMiddleware.js";
 import { UnauthorizedError } from "../exceptions/exceptions.js";
 import { categoryService } from "../services/CategoryService.js";
 import { messageService } from "../services/MessageService.js";
+import { chatService } from "../services/ChatService.js";
 
 export async function itemsPageRenderer(req: Request, res: Response) {
   const items = await itemService.getApprovedItems();
@@ -50,8 +51,8 @@ export async function filteredByPlaceRenderer(req: Request, res: Response) {
 export async function itemPageRenderer(req: Request<IdParams>, res: Response) {
   const id = Number(req.params.id);
   const item = await itemService.getItemById(id);
-  const messages = await messageService.getChat(req.user!.id, id);
-  res.render("item", { item, messages });
+  //const messages = await messageService.getChat(req.user!.id, id);
+  res.render("item", { item });
 }
 
 export async function updateItemPageRenderer(
@@ -81,12 +82,18 @@ export async function userAccountRenderer(req: AuthRequest, res: Response) {
 }
 
 export async function renderChatPage(req: Request<IdParams>, res: Response) {
-  const id = Number(req.params.id);
-  const item = await itemService.getItemById(id);
-  const messages = await messageService.getDialogue(
-    req.user!.id,
-    item.userId,
-    id,
-  );
-  res.render("message", { item, messages });
+  const itemId = Number(req.params.id);
+  const item = await itemService.getItemById(itemId);
+  const chat = await chatService.getChat(req.user!.id, item.userId, itemId);
+  if (!req.user) {
+    throw new UnauthorizedError("You are not authorized");
+  }
+  const id = Number(req.user.id);
+  if (isNaN(id)) {
+    throw new UnauthorizedError("Invalid user identification");
+  }
+  const chats = await chatService.getChats(req.user.id);
+  console.log(chats);
+  const messages = chat ? chat.messages : [];
+  res.render("message", { item, messages, chats });
 }

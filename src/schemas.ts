@@ -1,5 +1,4 @@
-import { start } from "node:repl";
-import { boolean, z } from "zod";
+import z from "zod";
 
 export const userRegisterSchema = z.object({
   email: z.string().email({ error: "Email is not valid" }),
@@ -14,6 +13,8 @@ export const userRegisterSchema = z.object({
     .regex(/^[A-Za-z]+$/),
 });
 
+export type RegisterFormData = z.infer<typeof userRegisterSchema>;
+
 export const userLoginSchema = z.object({
   email: z.email({ error: "Email is not valid" }),
   password: z
@@ -21,6 +22,8 @@ export const userLoginSchema = z.object({
     .min(8, { error: "Password must contain at least 8 characters" })
     .max(25, { error: "Password is too long" }),
 });
+
+export type LoginFormData = z.infer<typeof userLoginSchema>;
 
 export const itemSchema = z.object({
   title: z
@@ -69,3 +72,7 @@ export const filtredByDateSchema = z
     message: "Початкова дата не може бути пізнішою за кінцеву, бро",
     path: ["startDate"],
   });
+
+export const messageSchema = z.object({
+  text: z.string().min(1),
+});

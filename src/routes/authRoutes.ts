@@ -2,7 +2,10 @@ import express, { Router } from "express";
 import type { Request, Response } from "express";
 import { authController } from "../controllers/authController.js";
 import { asyncErrorHandler } from "../middlewares/asyncHandler.js";
-import { checkRefreshToken } from "../middlewares/authMiddleware.js";
+import {
+  checkRefreshToken,
+  checkToken,
+} from "../middlewares/authMiddleware.js";
 import { validateInput } from "../middlewares/inputMiddleware.js";
 import { userLoginSchema, userRegisterSchema } from "../schemas.js";
 
@@ -27,6 +30,8 @@ authRouter.post(
   validateInput(userLoginSchema),
   asyncErrorHandler(authController.login),
 );
+
+authRouter.get("/currUser", checkToken, authController.getCurrentUser);
 
 authRouter.get("/refreshToken", checkRefreshToken, authController.refresh);
 

@@ -9,10 +9,12 @@ import {
   Check,
   JoinColumn,
   OneToMany,
+  DeleteDateColumn,
 } from "typeorm";
 import { User } from "./User.js";
 import { Category } from "./Category.js";
 import { Message } from "./Message.js";
+import { Conversation } from "./Conversation.js";
 export enum StatusEnum {
   LOST = "lost",
   FOUND = "found",
@@ -100,6 +102,11 @@ export class Item {
   })
   categoryId!: number;
 
-  @OneToMany(() => Message, (message) => message.itemId)
-  messages!: Message[];
+  @OneToMany(() => Conversation, (conversation) => conversation.item)
+  conversations!: Conversation[];
+
+  @DeleteDateColumn({
+    nullable: true,
+  })
+  deletedAt!: Date;
 }

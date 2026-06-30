@@ -3,6 +3,7 @@ import type { UserBody, UserLoginBody } from "../types/user.js";
 import { authService } from "../services/AuthService.js";
 import { RefreshToken } from "../entity/RefreshToken.js";
 import type { AuthRequest } from "../middlewares/authMiddleware.js";
+import { UnauthorizedError } from "../exceptions/exceptions.js";
 
 class AuthController {
   constructor(private service: typeof authService) {}
@@ -54,6 +55,14 @@ class AuthController {
       secure: false,
     });
     return res.status(200).json({ success: true });
+  };
+
+  getCurrentUser = async (req: Request, res: Response) => {
+    const currUser = req.user;
+    if (!req.user) {
+      throw new UnauthorizedError("Ви не авторизовані в системі");
+    }
+    res.status(200).json(currUser);
   };
 }
 

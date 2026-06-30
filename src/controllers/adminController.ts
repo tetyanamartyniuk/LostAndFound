@@ -14,7 +14,7 @@ class AdminController {
     const approvedItem = await this.service.approveItem(id);
     return res.status(200).json({
       success: true,
-      approvedItem: approvedItem,
+      data: approvedItem,
     });
   };
 
@@ -23,7 +23,7 @@ class AdminController {
     const disapprovedItem = await this.service.disApproveItem(id);
     return res.status(200).json({
       success: true,
-      disapprovedItem: disapprovedItem,
+      data: disapprovedItem,
     });
   };
 }

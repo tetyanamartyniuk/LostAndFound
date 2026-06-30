@@ -11,14 +11,14 @@ export const categoryRouter = express.Router();
 adminRouter.patch(
   "/panel/:id/approve",
   checkToken,
-  checkRole,
+  //checkRole,
   adminController.approveItem,
 );
 
 adminRouter.patch(
   "/panel/:id/disapprove",
   checkToken,
-  checkRole,
+  //checkRole,
   adminController.disapproveItem,
 );
 
@@ -29,13 +29,13 @@ adminRouter.get(
   itemController.getPendingItems,
 );
 
-adminRouter.get("/items-page", checkToken, checkRole, pendingItemsPageRenderer);
-
-categoryRouter.get(
-  "/",
+adminRouter.get(
+  "/pendingItems",
   checkToken,
-  checkRole,
-  categoryController.getCategories,
+  //checkRole,
+  itemController.getPendingItems,
 );
+
+categoryRouter.get("/", checkToken, categoryController.getCategories);
 
 categoryRouter.post("/", checkToken, checkRole, categoryController.addCategory);

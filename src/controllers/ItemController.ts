@@ -13,10 +13,19 @@ class ItemController {
   constructor(private service: typeof itemService) {}
 
   getItems = async (req: Request, res: Response): Promise<Response> => {
-    const items = await this.service.getApprovedItems();
+    const { status, startDate, endDate, place, categoryId, title } = req.query;
+    const items = await this.service.getApprovedItems({
+      status: status ? (status as "lost" | "found") : undefined,
+      startDate: startDate ? new Date(startDate as string) : undefined,
+      endDate: endDate ? new Date(endDate as string) : undefined,
+      place: place ? (place as string) : undefined,
+      categoryId: categoryId ? Number(categoryId) : undefined,
+      title: title ? (title as string) : undefined,
+    });
+    console.log(items);
     return res.status(200).json({
       success: true,
-      items: items,
+      data: items,
     });
   };
 
@@ -24,7 +33,7 @@ class ItemController {
     const pendingItems = await this.service.getPendingItems();
     return res.status(200).json({
       success: true,
-      pendingItems: pendingItems,
+      data: pendingItems,
     });
   };
 
@@ -54,7 +63,7 @@ class ItemController {
     const item = await this.service.getItemById(id);
     return res.status(200).json({
       success: true,
-      item: item,
+      data: item,
     });
   };
 
@@ -128,7 +137,7 @@ class ItemController {
     );
     return res.status(200).json({
       success: true,
-      filteredItems: items,
+      data: items,
     });
   };
 
@@ -144,6 +153,9 @@ class ItemController {
       success: true,
       items: items,
     });
+  };
+  searchByName = async (req: Request, res: Response) => {
+    const { title } = req.body;
   };
 }
 

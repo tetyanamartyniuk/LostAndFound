@@ -11,6 +11,7 @@ import {
 import { RefreshToken } from "./RefreshToken.js";
 import { Item } from "./Item.js";
 import { Message } from "./Message.js";
+import { Participant } from "./Participant.js";
 
 export enum UserRole {
   //можна не типом, а масивом прямо в сутності
@@ -60,9 +61,9 @@ export class User {
   @OneToMany(() => Item, (item) => item.user)
   items!: Item[];
 
-  @OneToMany(() => Message, (message) => message.receiverId)
-  receivedMessages!: Message[];
-
-  @OneToMany(() => Message, (message) => message.senderId)
+  @OneToMany(() => Message, (message) => message.sender)
   sentMessages!: Message[];
+
+  @OneToMany(() => Participant, (participant) => participant.user)
+  participants!: Participant[];
 }

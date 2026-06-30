@@ -10,7 +10,7 @@ class CategoryController {
     const categories = await this.service.getCategories();
     return res.status(200).json({
       success: true,
-      categories: categories,
+      data: categories,
     });
   };
 
@@ -21,7 +21,7 @@ class CategoryController {
     const category = await this.service.addCategory(req.body);
     return res.status(201).json({
       success: true,
-      category: category,
+      data: category,
     });
   };
 

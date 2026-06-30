@@ -3,8 +3,8 @@ export type Message = {
   text: string;
   sentAt: Date;
   readAt: Date;
-  receiver: number;
   sender: number;
+  chatId: number;
 };
 
 export type CreateMessageDTO = {
@@ -13,8 +13,7 @@ export type CreateMessageDTO = {
 
 export interface CreateMessagePayload extends CreateMessageDTO {
   senderId: number;
-  receiverId: number;
-  itemId: number;
+  chatId: number;
 }
 
 export type itemId = {

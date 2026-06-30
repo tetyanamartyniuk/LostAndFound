@@ -5,7 +5,6 @@ import { NotFoundError } from "../exceptions/exceptions.js";
 import { afterEach } from "node:test";
 
 class AdminService {
-  //зробити приватний допоміжний метод, який оновлює isApproved і кидає оці помилки NotFound
   constructor(private itemRepo: Repository<Item>) {}
 
   private async changeIsApproved(id: number, isApproved: isApproved) {

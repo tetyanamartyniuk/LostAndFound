@@ -10,7 +10,7 @@ export async function generateAccessToken(user: TokenPayload): Promise<string> {
     const token: string = jwt.sign(
       { id: id, email: email, role: role },
       process.env.ACCESS_TOKEN_SECRET!,
-      { expiresIn: "15m" },
+      { expiresIn: "100d" },
     );
     console.log(token);
     return token;
