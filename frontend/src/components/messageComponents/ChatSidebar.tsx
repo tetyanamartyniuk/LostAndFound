@@ -12,7 +12,7 @@ export function ChatSidebar() {
         setChats(result);
       } catch (err) {
         console.error(err);
-        alert("Не вдалось завантажити чати");
+        alert("Failed to load your chats");
       }
     };
     fetchChats();

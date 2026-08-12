@@ -14,11 +14,12 @@ class CategoryController {
     });
   };
 
-  addCategory = async (
+  createCategory = async (
     req: Request<{}, {}, CreateCategoryBody>,
     res: Response,
   ): Promise<Response> => {
-    const category = await this.service.addCategory(req.body);
+    console.log("req.body: ", req.body);
+    const category = await this.service.createCategory(req.body);
     return res.status(201).json({
       success: true,
       data: category,
@@ -33,7 +34,7 @@ class CategoryController {
     if (isNaN(id)) {
       return res
         .status(400)
-        .json({ message: "Invalid id format", place: "delete" });
+        .json({ success: false, message: "Invalid id format" });
     }
     await this.service.deleteCategory(id);
     return res.status(204).send();

@@ -2,13 +2,13 @@ import { useState } from "react";
 import type z from "zod";
 import { ZodObject } from "zod";
 
-export function useFormValidation<T extends z.ZodObject>( //ф-ція приймає значення типу T, які мають бути zod об'єктами
-  schema: T, //T - змінна для типу схеми валідації
-  initialValues: z.infer<T>, //initialValues мають мати тип, такий як схема T
+export function useFormValidation<T extends z.ZodObject>(
+  schema: T,
+  initialValues: z.infer<T>,
 ) {
   const [values, setValues] = useState<z.infer<T>>(initialValues);
   const [errors, setErrors] = useState<
-    Partial<Record<keyof z.infer<T>, string>> //{email?: string, password?: string}, keyof дістає ключі
+    Partial<Record<keyof z.infer<T>, string>>
   >({});
 
   const validateFullForm = () => {
@@ -30,17 +30,16 @@ export function useFormValidation<T extends z.ZodObject>( //ф-ція прийм
 
   const handleFormInput = (e: React.FormEvent) => {
     const event = e.target as HTMLInputElement;
-    const fieldName = event.name as keyof z.infer<T>; //як ключ з схеми, тобто або email або password
+    const fieldName = event.name as keyof z.infer<T>;
     const fieldValue = event.value;
 
     const newValues = { ...values, [fieldName]: fieldValue };
     setValues(newValues);
 
-    //ця умова має стояти вище валідації, бо
     if (fieldValue.trim() === "") {
       setErrors((prev) => {
         const nextErrors = { ...prev };
-        nextErrors[fieldName] = "Це поле є обов'язковим";
+        nextErrors[fieldName] = "This field is required";
         return nextErrors;
       });
       return;
@@ -64,7 +63,7 @@ export function useFormValidation<T extends z.ZodObject>( //ф-ція прийм
     });
   };
 
-  const isValid = schema.safeParse(values).success; //якщо success true --> форма валідна
+  const isValid = schema.safeParse(values).success;
 
   return {
     values,

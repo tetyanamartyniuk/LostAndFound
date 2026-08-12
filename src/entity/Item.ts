@@ -28,7 +28,6 @@ export enum isApproved {
 }
 
 @Entity()
-//@Check(`length(title) >= 3`)
 export class Item {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -54,7 +53,6 @@ export class Item {
   place!: string;
 
   @Column({
-    //додати на бекенд і фронт логіку перевірки дати, щоб вона не була майбутньою
     type: "date",
     nullable: false,
   })
@@ -74,8 +72,8 @@ export class Item {
   })
   userId!: number;
 
-  @ManyToOne(() => User, (user) => user.items, { onDelete: "CASCADE" }) //визначаємо зв'язок на рівні ORM
-  @JoinColumn({ name: "userId" }) //JoinColumn() в комбінації з ManyToOne сам створює foreign key
+  @ManyToOne(() => User, (user) => user.items, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "userId" })
   user!: User;
 
   @Column({

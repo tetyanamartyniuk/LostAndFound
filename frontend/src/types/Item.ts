@@ -13,8 +13,7 @@ export interface ItemProps {
   item: Item;
 }
 
-// Описуємо загальний формат відповіді сервера
 export interface ServerResponse<T> {
   success: boolean;
-  data: T; //юзаємо generic, бо тип даних, які повертаються у нас може бути різним
+  data: T;
 }

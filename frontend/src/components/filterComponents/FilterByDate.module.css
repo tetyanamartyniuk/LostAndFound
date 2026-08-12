@@ -1,0 +1,75 @@
+
+
+.dateInput {
+  padding: 8px 1px; 
+    font-family: inherit; 
+  font-size: 16px;
+  
+  color: rgb(50, 50, 50);
+  background-color: #f9f9f9;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 8px;
+  
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dateInput:hover {
+  border-color: rgb(150, 150, 150);
+}
+
+.dateInput:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: rgb(38, 71, 38);
+  box-shadow: 0 0 0 4px rgba(38, 71, 38, 0.15); 
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  cursor: pointer; /* Щоб при наведенні на календар був курсор-пальчик */
+  opacity: 0.5; /* Робимо її трохи світлішою, щоб не кидалася в очі */
+  transition: opacity 0.2s ease;
+}
+
+/* Коли наводимо мишку саме на іконку календаря — вона стає яскравою */
+.dateInput::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+
+.textInput {
+width: 15%;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23777" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>');
+  background-repeat: no-repeat;
+  
+  background-position: center; 
+      background-color: white;
+
+  background-size: 20px; 
+  padding: 5px;
+  cursor: pointer;
+}
+
+/* Обгортка, щоб між From і To був відступ */
+.dateFilterContainer {
+
+    
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Робимо кожен рядок флексом */
+.dateLabel {
+
+  display: flex;
+  align-items: center; /* Вирівнюємо текст та інпут ідеально по горизонтальній осі */
+  gap: 10px; /* Відстань між текстом і самим полем */
+}
+
+/* МАГІЯ ВИРІВНЮВАННЯ */
+.labelText {
+    padding-left: 5px;
+  width: 45px; /* Жорстко фіксуємо ширину для обох слів */
+  font-weight: 500;
+  color: rgb(50, 50, 50);
+}

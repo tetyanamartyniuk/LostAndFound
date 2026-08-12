@@ -19,5 +19,4 @@ export type CreateItemBody = {
   status: StatusEnum;
   userId: number;
   categoryId: number;
-  //image?: string | null;
 };

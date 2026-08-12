@@ -1,0 +1,70 @@
+
+* {
+  font-family: 'Inter', sans-serif;
+  /* background-color:rgb(251, 251, 251); */
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vw 4vw;
+    font-size: 0.9rem;
+    color: rgb(16, 74, 18);
+   font-family: 'Inter';
+   position: sticky;
+   top: 0px;
+   position: sticky;
+ 
+  background-color: #ffffff; 
+  
+  z-index: 100;
+    border-bottom: 1px solid rgb(181, 182, 181);
+
+}
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 5vw;
+    
+}
+
+.active{
+    color: rgb(71, 71, 71);
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+.notActive{
+    color: rgb(16, 74, 18);
+    text-decoration: none;
+
+
+}
+
+.reportBtn{
+    background-color:rgb(19, 61, 20);
+    color:rgb(234, 234, 234);
+    font-weight: lighter;
+    border: 1px solid rgb(73, 73, 73);
+    padding: 5px  10px 5px 10px;
+    border-radius: 7px;
+}
+
+.authBtns{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5vw
+}
+
+.profileBtn{
+    text-decoration: none;
+    color: brown;
+}
+
+.loginBtn{
+    font-weight: bolder;
+}

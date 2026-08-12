@@ -20,7 +20,7 @@ class AdminController {
 
   disapproveItem = async (req: Request<IdParams>, res: Response) => {
     const id = Number(req.params.id);
-    const disapprovedItem = await this.service.disApproveItem(id);
+    const disapprovedItem = await this.service.disapproveItem(id);
     return res.status(200).json({
       success: true,
       data: disapprovedItem,

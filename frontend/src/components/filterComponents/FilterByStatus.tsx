@@ -1,9 +1,27 @@
+import { useState } from "react";
+import styles from "./FilterByStatus.module.css";
+
 export function FilterByStatus() {
+  const [selectedStatus, setSelectedStatus] = useState<"lost" | "found" | "">(
+    "",
+  );
   return (
-    <select name="status">
-      <option value={""}></option>
-      <option value={"lost"}>Загублено</option>
-      <option value={"found"}>Знайдено</option>
-    </select>
+    <div className={styles.statusContainer}>
+      <input type="hidden" name="status" value={selectedStatus}></input>
+      <ul className={styles.statusList}>
+        <li
+          className={`${styles.status} ${selectedStatus === "lost" ? `${styles.activeStatus}` : ""}`}
+          onClick={() => setSelectedStatus("lost")}
+        >
+          Lost
+        </li>
+        <li
+          className={`${styles.status} ${selectedStatus === "found" ? `${styles.activeStatus}` : ""}`}
+          onClick={() => setSelectedStatus("found")}
+        >
+          Found
+        </li>
+      </ul>
+    </div>
   );
 }

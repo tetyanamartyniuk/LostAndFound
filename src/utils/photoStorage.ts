@@ -2,7 +2,7 @@ import multer, { type FileFilterCallback } from "multer";
 import type { Request } from "express";
 import path from "path";
 
-// 🔹 генерація імені
+//генерація імені
 const storage = multer.diskStorage({
   destination: function (
     req: Request,
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
   },
 });
 
-// 🔹 фільтр файлів
+//фільтр файлів
 const fileFilter = (
   req: Request,
   file: Express.Multer.File,
@@ -38,7 +38,7 @@ const fileFilter = (
   }
 };
 
-// 🔹 upload middleware
+//upload middleware
 export const upload = multer({
   storage: storage,
   fileFilter: fileFilter,

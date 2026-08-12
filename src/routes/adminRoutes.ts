@@ -1,9 +1,8 @@
 import express from "express";
-import { adminController } from "../controllers/adminController.js";
+import { adminController } from "../controllers/AdminController.js";
 import { itemController } from "../controllers/ItemController.js";
-import { pendingItemsPageRenderer } from "../controllers/EjsRenderer.js";
 import { checkRole, checkToken } from "../middlewares/authMiddleware.js";
-import { categoryController } from "../controllers/categoryController.js";
+import { categoryController } from "../controllers/CategoryController.js";
 
 export const adminRouter = express.Router();
 export const categoryRouter = express.Router();
@@ -11,14 +10,14 @@ export const categoryRouter = express.Router();
 adminRouter.patch(
   "/panel/:id/approve",
   checkToken,
-  //checkRole,
+  checkRole,
   adminController.approveItem,
 );
 
 adminRouter.patch(
   "/panel/:id/disapprove",
   checkToken,
-  //checkRole,
+  checkRole,
   adminController.disapproveItem,
 );
 
@@ -32,10 +31,15 @@ adminRouter.get(
 adminRouter.get(
   "/pendingItems",
   checkToken,
-  //checkRole,
+  checkRole,
   itemController.getPendingItems,
 );
 
-categoryRouter.get("/", checkToken, categoryController.getCategories);
+categoryRouter.get("/", categoryController.getCategories);
 
-categoryRouter.post("/", checkToken, checkRole, categoryController.addCategory);
+categoryRouter.post(
+  "/",
+  checkToken,
+  checkRole,
+  categoryController.createCategory,
+);

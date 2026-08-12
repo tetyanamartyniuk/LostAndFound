@@ -8,23 +8,19 @@ import { ChatSidebar } from "./ChatSidebar.js";
 import styles from "./chatLayout.module.css";
 import type { User, userPayload } from "../../types/User.js";
 import { itemService } from "../../services/itemService.js";
+import { useAuth } from "../../context/AuthContext.js";
 
-interface ChatLayoutProps {
-  currUser: userPayload | null;
-}
-
-export function ChatLayout({ currUser }: ChatLayoutProps) {
+export function ChatLayout() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [item, setItem] = useState<Item | null>(null);
   const [partner, setPartner] = useState<User | null>(null);
 
+  const { currUser } = useAuth();
   const params = useParams();
   const id = Number(params.itemId);
   if (!id) {
   }
-  // if (isNaN(itemId)) {pa
-  //     throw new NotFoundError("Invalid item ID format");
-  //   }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,7 +31,6 @@ export function ChatLayout({ currUser }: ChatLayoutProps) {
 
         if (fetchedItem) {
           setItem(fetchedItem);
-          console.log("Таня лох, а айтем отакий: " + fetchedItem.title);
         }
 
         if (conversation) {
@@ -50,7 +45,6 @@ export function ChatLayout({ currUser }: ChatLayoutProps) {
               (p) => p.user.id !== currUser.id,
             );
             if (chatPartner) {
-              console.log("Partner: ", chatPartner.user.id);
               setPartner(chatPartner.user);
             }
           }
@@ -68,11 +62,11 @@ export function ChatLayout({ currUser }: ChatLayoutProps) {
   const handleSendMessage = async (text: string) => {
     try {
       const result = await chatService.createMessage(id, text);
-      console.log("handleSendMessage: ", result.data.conversation.messages);
-      setMessages((prev) => [...prev, result.data.message]); //змінюємо змінну стану тільки так
+      console.log("handleSendMessage: ", result.conversation.messages);
+      setMessages((prev) => [...prev, result.message]);
     } catch (error) {
       console.error(error);
-      alert("Не вдалось надіслати повідомлення");
+      alert("Failed to send the message");
     }
   };
 
@@ -84,14 +78,11 @@ export function ChatLayout({ currUser }: ChatLayoutProps) {
 
       <div className={styles.chatContainer}>
         <h1>{item?.title}</h1>
-        <h2>Листування з {partner?.username}</h2>
+        <h2>Your chat with {partner?.username}</h2>
 
-        {/* Замінили ul на div для правильної семантики */}
         <div className={styles.messagesList}>
           {messages.map((message) => (
-            // KEY ТЕПЕР ТУТ — на найвищому рівні!
             <div key={message.id} className={styles.messageWrapper}>
-              {/* Перевіряємо, чиє це повідомлення, і малюємо відповідний стиль */}
               {currUser?.id === message.senderId ? (
                 <div className={styles.sentMessages}>{message.text}</div>
               ) : (

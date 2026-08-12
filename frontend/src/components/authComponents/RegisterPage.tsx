@@ -1,22 +1,16 @@
 import { RegisterForm } from "./RegisterForm";
+import { authService } from "../../services/authService";
+import { useNavigate } from "react-router-dom";
 
 export function RegisterPage() {
+  const navigate = useNavigate();
   const handleRegisterSubmit = async (formData: any) => {
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      console.log(formData);
-      const result = await response.json();
-      console.log(result);
-      if (!response.ok) {
-        throw new Error(result.message || "Помилка реєстрації");
-      }
-      alert("Чудово! Акаунт успішно створено.");
+      await authService.register(formData);
+      alert("Your account was successfully created.");
+      navigate("/auth/loginPage");
     } catch (err: any) {
-      console.error("Помилка при реєстрації:", err);
+      console.error("Registration error:", err);
       alert(err.message);
     }
   };

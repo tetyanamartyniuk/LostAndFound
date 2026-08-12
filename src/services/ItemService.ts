@@ -2,7 +2,7 @@ import { Between, ILike, type Repository } from "typeorm";
 import { isApproved, type Item, type StatusEnum } from "../entity/Item.js";
 import { NotFoundError } from "../exceptions/exceptions.js";
 import { itemRepo } from "../repos/itemRepository.js";
-import type { CreateItemBody } from "../types/item.js";
+import type { CreateItemBody } from "../types/Item.js";
 import { Raw } from "typeorm";
 import { th } from "zod/locales";
 
@@ -27,14 +27,6 @@ class ItemService {
   }
 
   buildFilterWhereClause(filters?: filters): Object {
-    //status
-    //endDate і обов'язково startDate
-    //place
-    //categoryId
-
-    //where: {status: status, foundAt: Between(startDate, endDate), place: place, categoryId: categoryId}
-    //const foundAt = [filters?.startDate, filters?.endDate]
-
     const whereClause: any = {};
     if (filters?.status) {
       whereClause.status = filters.status;
@@ -55,8 +47,7 @@ class ItemService {
     if (filters?.title) {
       whereClause.title = ILike(`%${filters.title}%`);
     }
-    // const filteredItems = await this.itemRepo.find({
-    //   where: whereClause})
+
     return whereClause;
   }
 
@@ -66,8 +57,6 @@ class ItemService {
     });
   }
 
-  //async getDisapprovedItems
-
   async getMyItems(id: number): Promise<Item[]> {
     const myItems = await this.itemRepo.find({ where: { userId: id } });
     return myItems;
@@ -75,20 +64,20 @@ class ItemService {
 
   async getItemById(id: number): Promise<Item> {
     const item = await this.itemRepo.findOneBy({ id: id });
-    console.log(item);
     if (!item) {
-      throw new NotFoundError("Item with this id wasn`t found");
+      throw new NotFoundError(`Item with id ${id} wasn't found`);
     }
     return item;
   }
 
-  async addItem(item: CreateItemBody, image: string[] | null): Promise<Item> {
+  async createItem(
+    item: CreateItemBody,
+    image: string[] | null,
+  ): Promise<Item> {
     const itemData = this.itemRepo.create({
       ...item,
       image,
     });
-    console.log(itemData + "jfkfkfk");
-
     return await this.itemRepo.save(itemData);
   }
 

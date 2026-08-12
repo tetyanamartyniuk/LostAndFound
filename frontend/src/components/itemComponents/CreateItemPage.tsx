@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { itemService } from "../services/itemService";
-import { CreateItemForm } from "./itemComponents/CreateItemForm";
+import { itemService } from "../../services/itemService";
+import { CreateItemForm } from "./CreateItemForm";
 
 export function CreateItemPage() {
   const navigate = useNavigate();
@@ -8,11 +8,14 @@ export function CreateItemPage() {
   const handleItemCreate = async (formData: any) => {
     try {
       await itemService.create(formData);
-      alert("Річ успішно додана");
+      alert("Item successfully created");
       navigate("/");
     } catch (err: any) {
-      console.error("Помилка створення речі:", err);
-      alert(err.message || "Не вдалося створити оголошення. Спробуйте ще раз.");
+      console.error("Something went wrond during item creation :", err);
+      alert(
+        err.message ||
+          "Something went wrond during item creation. Please try again.",
+      );
     }
   };
   return <CreateItemForm onCreate={handleItemCreate}></CreateItemForm>;

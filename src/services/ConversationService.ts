@@ -1,11 +1,11 @@
 import { th } from "zod/locales";
 import { AppDataSource } from "../database/database.js";
 import { NotFoundError } from "../exceptions/exceptions.js";
-import { conversationRepo } from "../repos/ConversationRepository.js";
-import { participantRepo } from "../repos/ParticipantRepo.js";
+import { conversationRepo } from "../repos/conversationRepo.js";
+import { participantRepo } from "../repos/participantRepo.js";
 import { itemRepo } from "../repos/itemRepository.js";
 import { Item } from "../entity/Item.js";
-import { messageRepo } from "../repos/MessageRepository.js";
+import { messageRepo } from "../repos/MessageRepo.js";
 import { Conversation } from "../entity/Conversation.js";
 import { Participant } from "../entity/Participant.js";
 import { Message } from "../entity/Message.js";
@@ -25,7 +25,7 @@ class ConversationService {
       },
     });
     if (!result) {
-      throw new NotFoundError("Розмову з таким id речі не знайдено");
+      throw new NotFoundError(`Conversation with id ${id} wasn't found`);
     }
     return result;
   }
@@ -49,12 +49,9 @@ class ConversationService {
           },
         );
         if (!item) {
-          throw new NotFoundError("Не вдалось знайти річ з таким id");
+          throw new NotFoundError(`Item with id ${itemId} wasn't found`);
         }
 
-        // if (item.userId === senderId) {
-        //   throw new Error("Ви не можете почати розмову щодо власної речі");
-        // }
         let conversation = await tempConversationRepo.checkConversationExists(
           senderId,
           item.userId,
@@ -63,9 +60,7 @@ class ConversationService {
 
         if (!conversation) {
           if (senderId === item.userId) {
-            console.log("sender" + senderId);
-            console.log("Item owner id" + item.userId);
-            throw new Error("Ти не можеш почати чат сам із собою");
+            throw new Error("You cannot send a message to yourself");
           }
           conversation = await transactionalEntityManager.save(Conversation, {
             itemId,
@@ -104,9 +99,6 @@ class ConversationService {
       await this._conversationRepo.getAllConversations(userId);
     return conversations;
   }
-  // async createConversation(){
-  //     await this._conversationRepo.save()
-  // }
 }
 
 export const conversationService = new ConversationService(

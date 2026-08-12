@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { UserBody, UserLoginBody } from "../types/user.js";
+import type { UserBody, UserLoginBody } from "../types/User.js";
 import { authService } from "../services/AuthService.js";
 import { RefreshToken } from "../entity/RefreshToken.js";
 import type { AuthRequest } from "../middlewares/authMiddleware.js";
@@ -12,7 +12,6 @@ class AuthController {
     req: Request<{}, {}, UserBody>,
     res: Response,
   ): Promise<Response> => {
-    //console.log(req.body)
     const result = await this.service.register(req.body);
     res.cookie("token", result.token, {
       httpOnly: true,
@@ -46,10 +45,11 @@ class AuthController {
   };
 
   refresh = async (req: AuthRequest, res: Response) => {
+    if (!req.user) {
+      throw new UnauthorizedError("You are not authenticated");
+    }
     const userPayload = req.user;
-    console.log(req.user);
     const newAccessToken = await this.service.refresh(userPayload!);
-    console.log("NEW ACCESS TOKEN", newAccessToken);
     res.cookie("token", newAccessToken, {
       httpOnly: true,
       secure: false,
@@ -60,7 +60,7 @@ class AuthController {
   getCurrentUser = async (req: Request, res: Response) => {
     const currUser = req.user;
     if (!req.user) {
-      throw new UnauthorizedError("Ви не авторизовані в системі");
+      throw new UnauthorizedError("You are not authenticated");
     }
     res.status(200).json(currUser);
   };

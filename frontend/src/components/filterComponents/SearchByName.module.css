@@ -1,0 +1,31 @@
+.inputWrapper {
+    position: relative;
+    
+    width: 40%;
+    background-color: #ffffff; 
+
+}
+
+.input {
+  width: 100%;
+  max-width: 600px;
+
+  border: 1px solid rgb(39, 45, 40);
+  border-radius: 7px;
+  background-color: rgb(243, 242, 242);
+
+  padding-left: 10px;
+  padding-right: 30px; 
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.searchIcon{
+    position: absolute;
+    right: 10px; 
+  background-color: transparent;
+  top: 40%;
+  transform: translateY(-50%);
+
+  pointer-events: none; 
+}

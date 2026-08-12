@@ -1,5 +1,5 @@
-import { CategorySelect } from "./CategorySelect";
+import { CategoryFilter } from "../categoryComponents/CategoryFilter";
 
 export function FilterByCategory() {
-  return <CategorySelect defaultText="Всі категорії"></CategorySelect>;
+  return <CategoryFilter defaultText="All categories"></CategoryFilter>;
 }

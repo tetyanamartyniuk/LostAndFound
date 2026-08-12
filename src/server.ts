@@ -24,18 +24,14 @@ app.use(cookieParser()); //має стояти вище усіх роутів
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
-app.get("/main-page", (req: Request, res: Response) => {
-  res.render("main-page");
-});
-
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/items", itemRouter);
 app.use("/api/admin", adminRouter);
-app.use("/api/category", categoryRouter);
+app.use("/api/categories", categoryRouter);
 
 app.use((req: Request, res: Response) => {
-  res.status(404).json({ message: "Сторінку не знайдено" });
+  res.status(404).json({ success: false, message: "Page wasn`t found" });
 });
 
 app.use((req, res, next) => {
@@ -43,10 +39,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.set("view engine", "ejs");
-
 const errorHandler: ErrorRequestHandler = (
-  //в TypeScript типізувати треба через змінну(, просто app.use не можна
   err: unknown,
   req: Request,
   res: Response,
@@ -60,7 +53,6 @@ const errorHandler: ErrorRequestHandler = (
   }
   if (err instanceof Error) {
     console.error("SYSTEM ERROR:", err.stack);
-    console.log("ТИ лох");
     console.log(err);
     return res.status(500).json({
       message: "INTERNAL SERVER ERROR 66",

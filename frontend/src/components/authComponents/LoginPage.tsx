@@ -1,21 +1,17 @@
 import { LoginForm } from "./LoginForm";
+import { authService } from "../../services/authService";
+import { useNavigate } from "react-router-dom";
 
 export function LoginPage() {
+  const navigate = useNavigate();
+
   async function handleLoginSubmit(formData: any) {
     try {
-      const response = await fetch("/api/auth/login", {
-        //фетчимо запит на бек
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData), //передаємо в тіло запиту дані з форми
-      });
-      const result = await response.json(); //перекидаємо в джсон
-      if (!response.ok) {
-        throw new Error(result.message || "Помилка авторизації");
-      }
-      alert("Чудово! Ви успішно зареєструвались");
+      await authService.login(formData);
+      alert("Your login was successful");
+      navigate("/profile");
     } catch (err: any) {
-      console.error("Помилка при реєстрації:", err);
+      console.error("Authentication error:", err);
       alert(err.message);
     }
   }

@@ -1,0 +1,29 @@
+.itemContainer{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid rgb(220, 220, 220); /* Твій бордер */
+    border-radius: 5px;
+    overflow: hidden;
+    list-style: none;
+    
+}
+
+.itemImg{
+    width: 100%;
+    height: 175px;
+    object-fit: cover; /*картинка заповнює всю висоту, зберігаючи пропорції, зайве обрізається*/
+}
+
+.itemCardText{
+    display: flex;
+    flex-direction: column;
+    color:rgb(62, 68, 63);;
+    padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+}
+
+.statusSpan{
+}

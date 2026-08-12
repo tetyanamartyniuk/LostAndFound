@@ -8,11 +8,11 @@ interface MessageInputFormProps {
 export function MessageInputForm({ onSend }: MessageInputFormProps) {
   const [text, setText] = useState<string>("");
 
-  const isValid = text.trim() !== ""; // !== САМ ПО СОБІ ПОВЕРТАЄ true або false
+  const isValid = text.trim() !== "";
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Поточне повідомлення: ", text);
+    console.log("Current message: ", text);
 
     if (!isValid) return;
     onSend(text);
@@ -30,7 +30,7 @@ export function MessageInputForm({ onSend }: MessageInputFormProps) {
         />
       </label>
       <button disabled={!isValid} className={styles.button}>
-        Надіслати
+        Send
       </button>
     </form>
   );

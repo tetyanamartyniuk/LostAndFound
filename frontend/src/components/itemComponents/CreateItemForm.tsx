@@ -1,9 +1,11 @@
 import { useState, type FormEvent } from "react";
-import { CategorySelect } from "../CategorySelect";
+import { CategorySelect } from "../categoryComponents/CategorySelect";
 import { itemSchema } from "../../../../src/schemas";
+import styles from "./CreateItemForm.module.css";
+import { FileInput } from "./FileInput";
 
 export interface CreateItemFormProps {
-  onCreate: (formData: any) => void;
+  onCreate: (formData: FormData) => void;
 }
 
 export function CreateItemForm({ onCreate }: CreateItemFormProps) {
@@ -11,18 +13,15 @@ export function CreateItemForm({ onCreate }: CreateItemFormProps) {
   const [isValid, setIsValid] = useState<boolean>(false);
 
   const validateFullForm = (formElement: HTMLFormElement) => {
-    const formData = new FormData(formElement); //нам не треба збирати всі властивості через append, бо браузер робить це за нас
-    //formData зараз у вигляді спеціального бінарного контейнера
-    const rawData = Object.fromEntries(formData.entries()); //перетворюємо на звичайний JS об'єкт
+    const formData = new FormData(formElement);
+    const rawData = Object.fromEntries(formData.entries());
     const result = itemSchema.safeParse(rawData);
     return result;
   };
 
-  //ф-ція для валідації інпутів "на льоту"
   const handleFormInput = (e: FormEvent<HTMLFormElement>) => {
     const formCheck = validateFullForm(e.currentTarget);
     setIsValid(formCheck.success);
-    //дістаємо з форми інпути та їх назви
     const target = e.target as HTMLInputElement | HTMLSelectElement;
     const fieldName = target.name;
     const fieldValue = target.value;
@@ -30,29 +29,22 @@ export function CreateItemForm({ onCreate }: CreateItemFormProps) {
     if (fieldValue.trim() === "") {
       setErrors((prev) => {
         const nextErrors = { ...prev };
-        nextErrors[fieldName] = "Це поле є обов'язковим";
+        nextErrors[fieldName] = "This field is required";
         return nextErrors;
       });
       return;
     }
-    //робимо всі поля необов'язковими, щоб мати можливість перевіряти по одному
     const result = itemSchema.partial().safeParse({ [fieldName]: fieldValue });
 
-    //якщо результат не був успішним, шукаємо помилку конкретно для нашого поля
     if (!result.success) {
-      const issue = result.error.issues.find((i) => i.path[0] === fieldName); //result.error.issues - масив усіх помилок, які виявив zod
+      const issue = result.error.issues.find((i) => i.path[0] === fieldName);
       if (issue) {
-        //якщо помилка трапилась
-        //prev це попередній стан реакту (о'бєкт), ми його розпаковуємо і додаємо нову помилку
         setErrors((prev) => ({ ...prev, [fieldName]: issue.message }));
         return;
       }
     }
-    //у реакт не можна змінювати стейт напряму
     setErrors((prev) => {
-      //тому тут ми клонуємо наш об'єкт
       const nextErrors = { ...prev };
-      //вбудований оператор дозволяє повністю видалити з об'єкта властивість і її значення
       delete nextErrors[fieldName];
       return nextErrors;
     });
@@ -76,50 +68,94 @@ export function CreateItemForm({ onCreate }: CreateItemFormProps) {
     const formData = new FormData(e.currentTarget);
     onCreate(formData);
   };
+
   return (
-    <form onSubmit={handleSubmit} onChange={handleFormInput}>
-      <label>
-        <input type="text" name="title" placeholder="title" />
-        {errors.title && <span style={{ color: "red" }}>{errors.title}</span>}
-      </label>
-      <label>
-        <input type="text" name="description" placeholder="description" />
-        {errors.description && (
-          <span style={{ color: "red" }}>{errors.description}</span>
-        )}
-      </label>
-      <label>
-        <input type="place" placeholder="place" name="place" />
-        {errors.place && <span style={{ color: "red" }}>{errors.place}</span>}
-      </label>
-      <label>
-        <input type="date" placeholder="foundAt" name="foundAt" />
-        {errors.foundAt && (
-          <span style={{ color: "red" }}>{errors.foundAt}</span>
-        )}
-      </label>
-      <label>
-        <select name="status">
-          <option value=""></option>
-          <option value="lost">lost</option>
-          <option value="found">found</option>
-        </select>
-        {errors.status && <span style={{ color: "red" }}>{errors.status}</span>}
-      </label>
-      <label>
-        <input
-          type="file"
-          name="image"
-          placeholder="Drag photo here"
-          multiple
-        />
-      </label>
-      <label>
-        <CategorySelect defaultText="Виберіть категорію"></CategorySelect>
-      </label>
-      <button type="submit" disabled={!isValid}>
-        Створити
-      </button>
-    </form>
+    <div className={styles.container}>
+      <h3 className={styles.createItemHeading}>
+        Let us know what you have found/lost
+      </h3>
+      <form
+        onSubmit={handleSubmit}
+        onChange={handleFormInput}
+        className={styles.createForm}
+      >
+        <label className={styles.inputLabel}>
+          <input
+            type="text"
+            name="title"
+            placeholder="title"
+            className={`${styles.input} ${errors.title ? styles.inputError : ""}`}
+          />
+          {errors.title && (
+            <span className={styles.errorMessage}>{errors.title}</span>
+          )}
+        </label>
+        <label className={styles.inputLabel}>
+          <input
+            type="text"
+            name="description"
+            placeholder="description"
+            className={`${styles.input} ${errors.description ? styles.inputError : ""}`}
+          />
+          {errors.description && (
+            <span className={styles.errorMessage}>{errors.description}</span>
+          )}
+        </label>
+        <label className={styles.inputLabel}>
+          <input
+            type="text" // Змінено з type="place" на type="text", оскільки type="place" не існує в HTML
+            placeholder="place"
+            name="place"
+            className={`${styles.input} ${errors.place ? styles.inputError : ""}`}
+          />
+          {errors.place && (
+            <span className={styles.errorMessage}>{errors.place}</span>
+          )}
+        </label>
+        <div className={styles.dateAndStatusInputs}>
+          <label className={styles.inputLabel}>
+            <input
+              type="date"
+              placeholder="foundAt"
+              name="foundAt"
+              className={`${styles.input} ${errors.foundAt ? styles.inputError : ""}`}
+            />
+            {errors.foundAt && (
+              <span className={styles.errorMessage}>{errors.foundAt}</span>
+            )}
+          </label>
+          <label className={styles.inputLabel}>
+            <select
+              name="status"
+              className={`${styles.input} ${errors.status ? styles.inputError : ""}`}
+              defaultValue="" // Додано defaultValue, щоб уникнути warning у консолі React для неконтрольованого select
+            >
+              <option value="" disabled>
+                Status
+              </option>
+              <option value="lost">lost</option>
+              <option value="found">found</option>
+            </select>
+            {errors.status && (
+              <span className={styles.errorMessage}>{errors.status}</span>
+            )}
+          </label>
+        </div>
+
+        <label className={styles.inputLabel}>
+          <FileInput></FileInput>
+        </label>
+
+        <label className={styles.inputLabel}>
+          <CategorySelect
+            defaultText="Choose category"
+            variant="native"
+          ></CategorySelect>
+        </label>
+        <button type="submit" disabled={!isValid} className={styles.createBtn}>
+          Create
+        </button>
+      </form>
+    </div>
   );
 }

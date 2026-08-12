@@ -1,0 +1,86 @@
+
+
+.imgContainer{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1rem;
+
+    background-color: rgb(208, 215, 206);
+}
+
+.boxImg{
+    width: 50%;
+    max-width: 550px;
+    height: auto;
+    padding-right: 10rem;
+    padding-top: 3rem;
+    background-color: transparent;
+
+
+}
+
+.title{
+    background-color: transparent;
+    color: rgb(50, 50, 50);
+    margin-bottom: 20px; 
+    
+    /* Бажано також скинути верхній відступ, щоб він не штовхав весь блок вниз */
+    margin-top: 0;
+}
+
+
+.textBlock{
+    margin-left: 10rem;
+    margin-top: 5rem;
+    background-color: transparent;
+}
+
+.pText{
+    background-color: transparent;
+    color: rgb(25, 64, 25);
+    font-size: 16px;
+    
+}
+
+p{
+    background-color: transparent;
+    margin-top: 0; 
+    
+    margin-bottom: 10px;
+}
+
+h1{
+    font-size: 80px;
+}
+
+.buttons{
+    margin-top: 6vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1rem;
+    background-color: transparent;
+    /* width: 35vw; */
+}
+
+.foundItemsBtn{
+    text-decoration: none;
+    background-color: transparent;
+    border: 1px solid rgb(38, 71, 38);
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(25, 64, 25);
+    color: rgb(234, 234, 234);
+    font-weight: lighter;
+
+}
+
+.reportItemBtn{
+    text-decoration: none;
+    background-color: transparent;
+    padding: 10px;
+    border: 1px solid rgb(25, 64, 25);;
+    border-radius: 10px;
+    color: rgb(25, 64, 25);;
+
+}

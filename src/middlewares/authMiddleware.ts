@@ -1,6 +1,6 @@
 import type { NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import type { User } from "../types/user.js";
+import type { User } from "../types/User.js";
 import type { IdParams } from "../types/idParamsType.js";
 
 import type { Response, Request } from "express";
@@ -68,15 +68,9 @@ export async function checkRefreshToken(
     next();
   } catch (err) {
     console.error(err);
-    return res.status(403).json({ message: "Invalid access token bebeb" });
+    return res.status(403).json({ message: "Invalid access token" });
   }
 }
-// export async function checkOwner(req: Request<IdParams>, res: Response, next: NextFunction){
-//     const id = Number(req.params.id)
-//     const user = await userService.getUserById(id)
-//     next();
-
-// }
 
 export function checkRole(req: AuthRequest, res: Response, next: NextFunction) {
   const user = req.user;
@@ -88,11 +82,5 @@ export function checkRole(req: AuthRequest, res: Response, next: NextFunction) {
   if (user.role !== "admin") {
     throw new ForbiddenError("You don`t have access to this");
   }
-  next(); //НЕ ЗАБУВАЙ NEXT В МІДЛВЕРАХ
+  next();
 }
-
-export function checkOwner(
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction,
-) {}

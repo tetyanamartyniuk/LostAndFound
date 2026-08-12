@@ -1,16 +1,16 @@
 import jwt from "jsonwebtoken";
-import type { User, UserLoginBody } from "../types/user.js";
+import type { User, UserLoginBody } from "../types/User.js";
 import { UserRole } from "../entity/User.js";
 import type { TokenPayload } from "../middlewares/authMiddleware.js";
 
-//відповідає чисто за генерацію токенів
+//відповідає за генерацію токенів
 export async function generateAccessToken(user: TokenPayload): Promise<string> {
   try {
     const { id, email, role } = user;
     const token: string = jwt.sign(
       { id: id, email: email, role: role },
       process.env.ACCESS_TOKEN_SECRET!,
-      { expiresIn: "100d" },
+      { expiresIn: "15m" },
     );
     console.log(token);
     return token;

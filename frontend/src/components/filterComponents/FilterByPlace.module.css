@@ -1,0 +1,8 @@
+.placeInputContainer{
+    background-color: transparent;
+}
+
+.placeInputContainer input{
+    padding: 5px;
+    width: 100%;
+}

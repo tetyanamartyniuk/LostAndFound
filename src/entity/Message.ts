@@ -33,7 +33,7 @@ export class Message {
     type: "timestamp",
     nullable: true,
   })
-  readAt!: Date; //можливо треба поставити ?
+  readAt!: Date;
 
   @ManyToOne(() => User, (user) => user.sentMessages)
   @JoinColumn({ name: "senderId" })

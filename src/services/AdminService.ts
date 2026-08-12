@@ -7,15 +7,15 @@ import { afterEach } from "node:test";
 class AdminService {
   constructor(private itemRepo: Repository<Item>) {}
 
-  private async changeIsApproved(id: number, isApproved: isApproved) {
-    const { affected } = await this.itemRepo.update(id, {
+  private async changeIsApproved(itemId: number, isApproved: isApproved) {
+    const { affected } = await this.itemRepo.update(itemId, {
       isApproved: isApproved,
     });
     if (affected === 0) {
       throw new NotFoundError("Item wasn`t found");
     }
     if (affected !== 1) {
-      throw new Error("ooops, smth went wrong");
+      throw new Error("Something went wrong");
     }
   }
 
@@ -23,7 +23,7 @@ class AdminService {
     return this.changeIsApproved(id, isApproved.APPROVED);
   }
 
-  async disApproveItem(id: number) {
+  async disapproveItem(id: number) {
     return this.changeIsApproved(id, isApproved.DISAPPROVED);
   }
 }

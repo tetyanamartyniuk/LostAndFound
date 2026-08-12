@@ -1,0 +1,27 @@
+.statusContainer{
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.statusList{
+    padding: 0; 
+    margin: 0;
+}
+
+.activeStatus{
+    background-color:rgb(25, 64, 25);
+    color: rgb(233, 233, 233);
+}
+
+.status{
+    list-style: none;
+    cursor: pointer;
+    padding: 5px;
+    border-bottom: 1px solid rgb(181, 182, 181);
+}
+
+.status:last-child{
+    border-bottom: none;
+}

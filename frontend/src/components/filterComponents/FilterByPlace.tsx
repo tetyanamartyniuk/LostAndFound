@@ -1,7 +1,10 @@
+import styles from "./FilterByPlace.module.css";
 export function FilterByPlace() {
   return (
-    <label>
-      <input type="text" name="place" placeholder="Місто"></input>
-    </label>
+    <div className={styles.placeInputContainer}>
+      <label>
+        <input type="text" name="place" placeholder="City"></input>
+      </label>
+    </div>
   );
 }

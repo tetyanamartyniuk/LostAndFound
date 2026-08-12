@@ -32,18 +32,15 @@ export const itemSchema = z.object({
     .max(25, { error: "Title is too long" }),
   description: z
     .string()
-    .min(10, { error: "Description must contain at least 10 chars" })
+    .min(10, { error: "Description must contain at least 10 characters" })
     .max(255, { error: "Description is too long" }),
   place: z
     .string()
-    .min(3, { error: "Place must contain at least 3 chars" })
+    .min(3, { error: "Place must contain at least 3 characters" })
     .max(255, { error: "Place is too long" }),
   foundAt: z.coerce
     .date()
-    .refine(
-      (date) => date <= new Date(),
-      "Дата не може бути в майбутньмоу бро",
-    ),
+    .refine((date) => date <= new Date(), "The date cannot be in the future"),
   status: z.enum(["lost", "found"], {
     error: "Status must be either 'lost' or 'found'",
   }),
@@ -57,19 +54,13 @@ export const filtredByDateSchema = z
   .object({
     startDate: z.coerce
       .date()
-      .refine(
-        (date) => date <= new Date(),
-        "Дата не може бути в майбутньмоу бро",
-      ),
+      .refine((date) => date <= new Date(), "The date cannot be in the future"),
     endDate: z.coerce
       .date()
-      .refine(
-        (date) => date <= new Date(),
-        "Дата не може бути в майбутньмоу бро",
-      ),
+      .refine((date) => date <= new Date(), "The date cannot be in the future"),
   })
   .refine((data) => data.startDate <= data.endDate, {
-    message: "Початкова дата не може бути пізнішою за кінцеву, бро",
+    message: "The start date cannot be later than the end date",
     path: ["startDate"],
   });
 

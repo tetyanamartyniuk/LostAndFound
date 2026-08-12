@@ -30,13 +30,8 @@ export const AppDataSource = new DataSource({
 });
 
 try {
-  await AppDataSource.initialize(); //встановлюємо початкове(перше) з'єдання з базою даних
+  await AppDataSource.initialize();
   console.log("Data Source was successfully initialized");
 } catch (err) {
   console.error("An error during Data Source initialization occured: " + err);
 }
-
-// export async function query<T extends QueryResultRow>(text: string, params?: unknown[]): Promise<T[]> {
-//     const result = await pool.query<T>(text, params)
-//     return result.rows
-// }

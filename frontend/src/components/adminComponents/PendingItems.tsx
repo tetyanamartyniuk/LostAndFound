@@ -8,7 +8,7 @@ export function PendingItems() {
     const fetchPendingItems = async () => {
       try {
         const result = await itemService.getPendingItems();
-        setPendingItems(result.data);
+        setPendingItems(result);
       } catch (err: any) {
         console.error(err.message);
       }
@@ -18,7 +18,9 @@ export function PendingItems() {
 
   const handleApprove = async (id: number) => {
     try {
-      const userAgreed = window.confirm("Ви впевнені, що хочете схвалити річ?");
+      const userAgreed = window.confirm(
+        "Are you sure that you want to approve this item?",
+      );
       if (!userAgreed) {
         return;
       }
@@ -32,7 +34,7 @@ export function PendingItems() {
   const handleDisapprove = async (id: number) => {
     try {
       const userAgreed = window.confirm(
-        "Ви впевнені, що хочете відхилити річ?",
+        "Are you sure that you want to disapprove this item?",
       );
       if (!userAgreed) {
         return;
@@ -45,18 +47,20 @@ export function PendingItems() {
   };
 
   return (
-    <ul>
-      {pendingItems.map((pendingItem) => (
-        <li key={pendingItem.id}>
-          {pendingItem.title}
-          <button onClick={() => handleApprove(pendingItem.id)}>
-            Підтвердити
-          </button>
-          <button onClick={() => handleDisapprove(pendingItem.id)}>
-            Відхилити
-          </button>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul>
+        {pendingItems.map((pendingItem) => (
+          <li key={pendingItem.id}>
+            {pendingItem.title}
+            <button onClick={() => handleApprove(pendingItem.id)}>
+              Approve
+            </button>
+            <button onClick={() => handleDisapprove(pendingItem.id)}>
+              Disapprove
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

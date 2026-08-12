@@ -14,7 +14,6 @@ import { Message } from "./Message.js";
 import { Participant } from "./Participant.js";
 
 export enum UserRole {
-  //можна не типом, а масивом прямо в сутності
   USER = "user",
   ADMIN = "admin",
 }
@@ -50,12 +49,12 @@ export class User {
   @Column({
     type: "enum",
     nullable: false,
-    enum: UserRole, //можна тут отак: ['guest', 'user', 'admin']
-    default: UserRole.ADMIN, // 'guest'
+    enum: UserRole,
+    default: UserRole.ADMIN,
   })
   role!: UserRole;
 
-  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user) //сам зв'язок
+  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
   refreshTokens!: RefreshToken[];
 
   @OneToMany(() => Item, (item) => item.user)

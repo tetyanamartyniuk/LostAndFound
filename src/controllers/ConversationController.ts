@@ -9,11 +9,11 @@ class ConversationController {
 
   private getUserId = (req: Request) => {
     if (!req.user) {
-      throw new UnauthorizedError("You are not authorized");
+      throw new UnauthorizedError("You are not authenticated");
     }
     const id = Number(req.user.id);
     if (isNaN(id)) {
-      throw new UnauthorizedError("Invalid user identification");
+      throw new UnauthorizedError("Invalid user id");
     }
     return id;
   };
@@ -22,13 +22,11 @@ class ConversationController {
     req: Request,
     res: Response,
   ): Promise<Response> => {
-    console.log("Сирий req.params.id:", req.params.itemId);
     const itemId = Number(req.params.itemId);
     if (isNaN(itemId)) {
       throw new NotFoundError("Invalid item ID format");
     }
     const senderId = this.getUserId(req);
-    console.log("senderId: " + senderId);
     const { text } = req.body;
     const result =
       await this._conversationService.createConversationAndSendMessage(
@@ -45,12 +43,10 @@ class ConversationController {
   getExactConversation = async (req: Request, res: Response) => {
     const itemId = Number(req.params.itemId);
     if (isNaN(itemId)) {
-      throw new NotFoundError("Invalid item ID format");
+      throw new NotFoundError("Invalid item id");
     }
-    if (!req.user) {
-      throw new UnauthorizedError("You are not authorized");
-    }
-    const userId = req.user.id;
+    const userId = this.getUserId(req);
+
     const conversation = await this._conversationService.getExactConversation(
       itemId,
       userId,
@@ -61,6 +57,7 @@ class ConversationController {
       data: conversation,
     });
   };
+
   getAllConversations = async (req: Request, res: Response) => {
     const userId = this.getUserId(req);
     const conversations =

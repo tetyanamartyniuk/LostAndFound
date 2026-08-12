@@ -2,24 +2,21 @@ import { useEffect, useState } from "react";
 import type { User, userPayload } from "../../types/User";
 import { userService } from "../../services/userService";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-export interface ProfileProps {
-  currUser: userPayload | null;
-}
-
-export function Profile({ currUser }: ProfileProps) {
+export function Profile() {
   const [user, setUser] = useState<User | null>(null);
-  const [authorized, setAuthorized] = useState<boolean>(false);
+  const { currUser, authenticated } = useAuth();
+
   useEffect(() => {
     const fetchUser = async () => {
-      if (currUser) {
+      if (currUser?.id) {
         try {
           const user = await userService.getUserById(currUser?.id);
           setUser(user);
-          setAuthorized(true);
         } catch (err) {
           console.error(err);
-          alert("Ooops smth went wrong" + err);
+          alert("Something went wrong" + err);
         }
       }
     };
@@ -28,20 +25,24 @@ export function Profile({ currUser }: ProfileProps) {
 
   return (
     <div>
-      {authorized ? (
+      {authenticated ? (
         <>
           <h1>Hello, {user?.username}</h1>
           <br></br>
-          <Link to="/">Знайдені та загублені речі</Link>
+          <Link to="/">Lost&Found things</Link>
           <br></br>
-          <Link to="/chats">Мої чати</Link>
+          <Link to="/chats">My chats</Link>
+          <Link to="/createItemPage">Found or lost something?</Link>
+          {currUser?.role === "admin" && (
+            <Link to="/admin">Administration panel</Link>
+          )}
         </>
       ) : (
         <>
-          <h1>Бюро знахідок</h1>
-          <h4>Не маєте акаунту?</h4>
-          <Link to="/auth/LoginPage">Увійти</Link>
-          <Link to="/auth/registerPage">Зареєструватись</Link>
+          <h1>Lost&Found</h1>
+          <h4>Don`t have an account yet?</h4>
+          <Link to="/auth/LoginPage">Login</Link>
+          <Link to="/auth/registerPage">Register</Link>
         </>
       )}
     </div>

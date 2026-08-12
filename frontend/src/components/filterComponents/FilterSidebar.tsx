@@ -5,8 +5,9 @@ import { FilterByStatus } from "./FilterByStatus";
 import { useSearchParams } from "react-router-dom";
 import { FilterByCategory } from "./FilterByCategory";
 import { SearchByName } from "./SearchByName";
+import styles from "./FilterSidebar.module.css";
 
-export function FilterBar() {
+export function FilterSidebar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const handleFiltersSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,16 +26,35 @@ export function FilterBar() {
 
     setSearchParams(cleanParams);
   };
+
+  const handleClearFilters = () => {
+    setSearchParams({});
+  };
   return (
-    <>
-      <form onSubmit={handleFiltersSubmit}>
-        <FilterByDate></FilterByDate>
+    <div className={styles.filterSidebarContainer}>
+      <div className={styles.filtersTitle}>
+        <h3 className={styles.filtersHeader}>Filters</h3>
+        <button className={styles.clearBtn} onClick={handleClearFilters}>
+          Clear all
+        </button>
+      </div>
+
+      <form onSubmit={handleFiltersSubmit} className={styles.filtersForm}>
+        <div className={styles.placeInput}>
+          <FilterByPlace></FilterByPlace>
+        </div>
+
         <FilterByStatus></FilterByStatus>
-        <FilterByPlace></FilterByPlace>
+
+        <div className={styles.dateInput}>
+          <FilterByDate></FilterByDate>
+        </div>
+
         <FilterByCategory></FilterByCategory>
-        <button type="submit">Фільтрувати</button>
+        <button type="submit" className={styles.filterBtn}>
+          Filter
+        </button>
       </form>
-      <SearchByName></SearchByName>
-    </>
+    </div>
   );
 }

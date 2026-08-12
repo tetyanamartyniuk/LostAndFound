@@ -1,0 +1,90 @@
+.filtersHeader{
+    color: rgb(25, 64, 25);
+}
+
+.filterSidebarContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid rgb(86, 105, 90);
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-left: 20px;
+}
+
+.filtersForm{
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+
+}
+
+.filtersForm input{
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 3px;
+
+}
+
+.filtersForm label{
+        background-color: transparent;
+}
+
+.placeInput{
+    margin-bottom: 10px;
+}
+
+.dateInput{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+}
+
+.filterBtn{
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgb(25, 64, 25);
+    color: rgb(231, 231, 231);
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+
+.filterBtn:hover{
+    box-shadow: 0 0 0 1px rgb(146, 139, 139);
+    transition: box-shadow 0.3s ease;
+}
+
+.filtersTitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clearBtn {
+    cursor: pointer;
+    color: rgb(75, 75, 75);
+    text-decoration:rgb(25, 64, 25);
+    text-decoration:underline;
+        margin-bottom: 0;
+                font-size: 12px;
+    margin-right: 5px;
+    border: none;
+
+}
+
+
+.divider{
+    border: none;
+    border-top: 1px solid rgb(200, 200, 200); /* Малюємо свою тонку красиву лінію */
+  margin: 16px 0; /* Робимо відступи зверху і знизу від лінії */
+  width: 80%; /* Щоб лінія тягнулася на всю ширину контейнера */
+  padding: 0;
+}
