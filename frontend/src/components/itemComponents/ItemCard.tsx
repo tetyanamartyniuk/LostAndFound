@@ -18,10 +18,15 @@ export function ItemCard({ item }: ItemProps) {
         <img src={imageUrl} className={styles.itemImg} />
         <div className={styles.itemCardText}>
           <h3>{item.title}</h3>
-          <p>Found: {item.place}</p>
-
           <p>
-            Status: <span className={styles.statusSpam}>{item.status} </span>
+            <span
+              className={`${styles.status} ${
+                item.status === "lost" ? styles.statusLost : styles.statusFound
+              }`}
+            >
+              {item.status}
+            </span>{" "}
+            in <span className={styles.location}>{item.place}</span>
           </p>
         </div>
       </li>

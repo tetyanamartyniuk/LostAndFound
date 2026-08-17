@@ -9,6 +9,7 @@ import styles from "./chatLayout.module.css";
 import type { User, userPayload } from "../../types/User.js";
 import { itemService } from "../../services/itemService.js";
 import { useAuth } from "../../context/AuthContext.js";
+import chatBackgroundImage from "./../../assets/chatBackgroundImage.png";
 
 export function ChatLayout() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -77,11 +78,10 @@ export function ChatLayout() {
       </aside>
 
       <div className={styles.chatContainer}>
+        {/* <img src={chatBackgroundImage} alt="Background image"></img> */}
         <div className={styles.chatHeader}>
           <h1>{item?.title}</h1>
-          <h2>
-            Your chat with {item.user?.username ? item.user?.username : ""}
-          </h2>
+          <h2>Your chat with {item?.user?.username}</h2>
         </div>
 
         <div className={styles.messagesList}>

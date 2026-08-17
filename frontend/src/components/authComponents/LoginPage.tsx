@@ -5,14 +5,15 @@ import { useAuth } from "../../context/AuthContext";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { setAuthenticated } = useAuth();
+  const { setAuthenticated, checkAuth } = useAuth();
 
   async function handleLoginSubmit(formData: any) {
     try {
-      await authService.login(formData);
+      const dbUser = await authService.login(formData);
       alert("Your login was successful");
       setAuthenticated(true);
-      navigate("/profile");
+      await checkAuth();
+      navigate("/profile", { replace: true, state: { profileData: dbUser } });
     } catch (err: any) {
       console.error("Authentication error:", err);
       alert(err.message);

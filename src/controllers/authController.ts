@@ -27,20 +27,19 @@ class AuthController {
     req: Request<{}, {}, UserLoginBody>,
     res: Response,
   ): Promise<Response> => {
-    const result = await this.service.login(req.body);
-    res.cookie("token", result.token, {
+    const userData = await this.service.login(req.body);
+    const { user, token, refreshToken } = userData;
+    res.cookie("token", token, {
       httpOnly: true,
       secure: false,
     });
-    res.cookie("refreshToken", result.refreshToken, {
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: false,
     });
     return res.status(200).json({
       success: true,
-      user: result.user,
-      token: result.token,
-      refreshToken: result.refreshToken,
+      data: user,
     });
   };
 
@@ -62,7 +61,10 @@ class AuthController {
     if (!req.user) {
       throw new UnauthorizedError("You are not authenticated");
     }
-    res.status(200).json(currUser);
+    res.status(200).json({
+      success: true,
+      data: currUser,
+    });
   };
 }
 

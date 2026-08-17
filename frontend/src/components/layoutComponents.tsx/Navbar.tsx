@@ -4,7 +4,6 @@ import { useAuth } from "../../context/AuthContext";
 
 export function Navbar() {
   const { authenticated } = useAuth();
-  const navigate = useNavigate();
 
   return (
     <header className={styles.header}>
@@ -18,12 +17,10 @@ export function Navbar() {
       </NavLink>
       <nav className={styles.navbar}>
         <NavLink
-          // to={authenticated ? "/items/new" : "/auth/login"}
-          to="/items/new"
+          to={"/items/new"}
           className={({ isActive }) =>
             `${styles.reportBtn} ${isActive ? styles.active : styles.notActive}`
           }
-          // onClick={!authenticated && navigate("/login")}
         >
           Report an item
         </NavLink>

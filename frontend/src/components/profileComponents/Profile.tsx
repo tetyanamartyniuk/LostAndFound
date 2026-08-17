@@ -1,29 +1,37 @@
 import { useEffect, useState } from "react";
-import type { User, userPayload } from "../../types/User";
+import type { User } from "../../types/User";
 import { userService } from "../../services/userService";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import styles from "./Profile.module.css";
+import { useLocation } from "react-router-dom";
 
 export function Profile() {
-  const [user, setUser] = useState<User | null>(null);
+  const location = useLocation();
+  const [user, setUser] = useState(location.state?.profileData || null);
   const { currUser, authenticated } = useAuth();
-
+  const [loading, setLoading] = useState(!user);
   useEffect(() => {
+    if (user) return;
     const fetchUser = async () => {
-      if (currUser?.id) {
-        try {
-          const user = await userService.getUserById(currUser?.id);
-          setUser(user);
-        } catch (err) {
-          console.error(err);
-          alert("Something went wrong" + err);
-        }
+      if (!currUser?.id) return;
+
+      try {
+        setLoading(true);
+        const user = await userService.getUserById(currUser?.id);
+        console.log("user: ", user);
+        setUser(user);
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong" + err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUser();
-  }, [currUser?.id]);
+  }, [user, currUser?.id]);
 
+  if (loading) return <div>Profile loading...</div>;
   return (
     <div className={styles.profilePage}>
       {authenticated && (
@@ -50,12 +58,18 @@ export function Profile() {
               </>
             )}
             {currUser?.role === "admin" && (
-              <Link
-                to="/admin"
-                className={`${styles.profileLink} ${styles.adminLink}`}
-              >
-                Administration panel
-              </Link>
+              <>
+                {" "}
+                <Link to="/chats" className={styles.profileLink}>
+                  My chats
+                </Link>
+                <Link
+                  to="/admin"
+                  className={`${styles.profileLink} ${styles.adminLink}`}
+                >
+                  Administration panel
+                </Link>
+              </>
             )}
           </div>
         </div>

@@ -8,11 +8,11 @@
 }
 
 .boxImg{
-    width: 50%;
-    max-width: 550px;
+    width: 60%;
+    max-width: 700px;
     height: auto;
-    padding-right: 10rem;
-    padding-top: 3rem;
+    padding-right: 7rem;
+    padding-top:0;
     background-color: transparent;
 
 
