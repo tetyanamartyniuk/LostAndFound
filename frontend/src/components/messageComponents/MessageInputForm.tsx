@@ -20,11 +20,12 @@ export function MessageInputForm({ onSend }: MessageInputFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmitForm}>
-      <label>
+    <form className={styles.form} onSubmit={handleSubmitForm}>
+      <label className={styles.inputLabel}>
         <input
           className={styles.input}
           type="text"
+          placeholder="Type a message..."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />

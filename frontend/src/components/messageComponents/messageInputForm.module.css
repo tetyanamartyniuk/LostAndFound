@@ -1,8 +1,53 @@
-/* input{
-    border-radius: 10px;
-    background-color: gainsboro;
+.form {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  background-color: #ffffff;
+  border-top: 1px solid rgb(220, 220, 220);
 }
 
-button{
-    border-radius: 25 px;
-} */
+.inputLabel {
+  flex: 1;
+  display: flex;
+}
+
+.input {
+  flex: 1;
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: 15px;
+  color: rgb(50, 50, 50);
+  background-color: rgb(248, 248, 248);
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 24px; 
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: rgb(25, 64, 25);
+  box-shadow: 0 0 0 3px rgba(25, 64, 25, 0.1);
+}
+
+.button {
+  padding: 0 24px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: rgb(25, 64, 25);
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: rgb(38, 71, 38);
+}
+
+.button:disabled {
+  background-color: rgb(200, 200, 200);
+  cursor: not-allowed;
+}

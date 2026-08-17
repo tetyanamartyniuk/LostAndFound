@@ -16,7 +16,7 @@ export function CategorySelect({ defaultText }: CategorySelectProps) {
         {defaultText}
       </option>
       {categories.map((category) => (
-        <option value={category.name}>{category.name}</option>
+        <option value={category.id}>{category.name}</option>
       ))}
     </select>
 

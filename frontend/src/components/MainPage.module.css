@@ -4,7 +4,6 @@
     display: flex;
     justify-content: space-between;
     padding-right: 1rem;
-
     background-color: rgb(208, 215, 206);
 }
 
@@ -22,9 +21,7 @@
 .title{
     background-color: transparent;
     color: rgb(50, 50, 50);
-    margin-bottom: 20px; 
-    
-    /* Бажано також скинути верхній відступ, щоб він не штовхав весь блок вниз */
+    margin-bottom: 20px;
     margin-top: 0;
 }
 
@@ -54,13 +51,13 @@ h1{
 }
 
 .buttons{
-    margin-top: 6vh;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     gap: 1rem;
     background-color: transparent;
     /* width: 35vw; */
+    margin-bottom: 100px;
 }
 
 .foundItemsBtn{

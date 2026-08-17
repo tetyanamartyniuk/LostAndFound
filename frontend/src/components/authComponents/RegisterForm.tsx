@@ -32,7 +32,7 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
     <form className={styles.registerForm} onSubmit={handleRegisterForm}>
       <label className={styles.inputLabel}>
         <input
-          type="email" /* Змінено з text на email */
+          type="email"
           id="email"
           name="email"
           placeholder="Your email"

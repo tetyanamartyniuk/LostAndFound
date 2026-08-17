@@ -83,8 +83,8 @@
 
 .divider{
     border: none;
-    border-top: 1px solid rgb(200, 200, 200); /* Малюємо свою тонку красиву лінію */
-  margin: 16px 0; /* Робимо відступи зверху і знизу від лінії */
-  width: 80%; /* Щоб лінія тягнулася на всю ширину контейнера */
+    border-top: 1px solid rgb(200, 200, 200); 
+  margin: 16px 0; 
+  width: 80%; 
   padding: 0;
 }

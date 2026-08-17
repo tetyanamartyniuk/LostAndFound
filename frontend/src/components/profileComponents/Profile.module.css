@@ -1,0 +1,70 @@
+.profilePage {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.profileCard {
+  width: 100%;
+  max-width: 480px;
+  background-color: rgb(240, 240, 240);
+  border-radius: 16px;
+  padding: 32px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.greeting {
+  margin: 0 0 24px 0;
+  font-size: 28px;
+  color: rgb(50, 50, 50);
+  text-align: center;
+}
+
+.linksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
+}
+
+.profileLink {
+  display: block;
+  text-align: center;
+  padding: 14px 20px;
+  background-color: #ffffff;
+  color: rgb(50, 50, 50);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.profileLink:hover {
+  border-color: rgb(25, 64, 25);
+  box-shadow: 0 2px 8px rgba(38, 71, 38, 0.1);
+  transform: translateY(-1px); 
+}
+
+.profileLink:active {
+  transform: translateY(0);
+}
+
+.accentLink {
+  background-color: rgb(25, 64, 25);
+  color: rgb(231, 231, 231);
+  border: none;
+}
+
+.accentLink:hover {
+  background-color: rgb(38, 71, 38);
+}
+
+.adminLink {
+  margin-top: 12px; 
+  background-color: rgb(16, 49, 15);
+  color: rgb(240, 240, 240);
+  border: none;
+}
+

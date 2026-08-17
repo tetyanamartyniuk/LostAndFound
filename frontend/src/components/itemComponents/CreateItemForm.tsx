@@ -103,7 +103,7 @@ export function CreateItemForm({ onCreate }: CreateItemFormProps) {
         </label>
         <label className={styles.inputLabel}>
           <input
-            type="text" // Змінено з type="place" на type="text", оскільки type="place" не існує в HTML
+            type="text"
             placeholder="place"
             name="place"
             className={`${styles.input} ${errors.place ? styles.inputError : ""}`}
@@ -128,7 +128,7 @@ export function CreateItemForm({ onCreate }: CreateItemFormProps) {
             <select
               name="status"
               className={`${styles.input} ${errors.status ? styles.inputError : ""}`}
-              defaultValue="" // Додано defaultValue, щоб уникнути warning у консолі React для неконтрольованого select
+              defaultValue=""
             >
               <option value="" disabled>
                 Status
@@ -147,10 +147,7 @@ export function CreateItemForm({ onCreate }: CreateItemFormProps) {
         </label>
 
         <label className={styles.inputLabel}>
-          <CategorySelect
-            defaultText="Choose category"
-            variant="native"
-          ></CategorySelect>
+          <CategorySelect defaultText="Choose category"></CategorySelect>
         </label>
         <button type="submit" disabled={!isValid} className={styles.createBtn}>
           Create

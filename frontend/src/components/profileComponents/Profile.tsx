@@ -3,6 +3,7 @@ import type { User, userPayload } from "../../types/User";
 import { userService } from "../../services/userService";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import styles from "./Profile.module.css";
 
 export function Profile() {
   const [user, setUser] = useState<User | null>(null);
@@ -24,26 +25,40 @@ export function Profile() {
   }, [currUser?.id]);
 
   return (
-    <div>
-      {authenticated ? (
-        <>
-          <h1>Hello, {user?.username}</h1>
-          <br></br>
-          <Link to="/">Lost&Found things</Link>
-          <br></br>
-          <Link to="/chats">My chats</Link>
-          <Link to="/createItemPage">Found or lost something?</Link>
-          {currUser?.role === "admin" && (
-            <Link to="/admin">Administration panel</Link>
-          )}
-        </>
-      ) : (
-        <>
-          <h1>Lost&Found</h1>
-          <h4>Don`t have an account yet?</h4>
-          <Link to="/auth/LoginPage">Login</Link>
-          <Link to="/auth/registerPage">Register</Link>
-        </>
+    <div className={styles.profilePage}>
+      {authenticated && (
+        <div className={styles.profileCard}>
+          <h1 className={styles.greeting}>Hello, {user?.username} 👋</h1>
+
+          <div className={styles.linksContainer}>
+            {currUser?.role === "user" && (
+              <>
+                <Link to="/items" className={styles.profileLink}>
+                  Lost&Found things
+                </Link>
+
+                <Link to="/chats" className={styles.profileLink}>
+                  My chats
+                </Link>
+
+                <Link
+                  to="/items/new"
+                  className={`${styles.profileLink} ${styles.accentLink}`}
+                >
+                  Found or lost something?
+                </Link>
+              </>
+            )}
+            {currUser?.role === "admin" && (
+              <Link
+                to="/admin"
+                className={`${styles.profileLink} ${styles.adminLink}`}
+              >
+                Administration panel
+              </Link>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

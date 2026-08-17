@@ -1,0 +1,104 @@
+.container {
+  max-width: 800px;
+
+}
+
+.heading {
+  font-size: 24px;
+  color: rgb(50, 50, 50);
+  margin-bottom: 24px;
+  margin-top: 16px;
+}
+
+.emptyMessage {
+  color: rgb(100, 100, 100);
+  font-size: 16px;
+  font-style: italic;
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  background-color: #f9f9f9;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 8px;
+  padding: 16px 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s ease;
+  gap: 40px;
+}
+
+.listItem:hover {
+  border-color: rgb(150, 150, 150);
+}
+
+.itemTitle {
+  font-size: 25px;
+  font-weight: 600;
+  color: rgb(50, 50, 50);
+  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 16px; 
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+
+
+.approveBtn,
+.disapproveBtn {
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.approveBtn {
+  background-color: rgb(25, 64, 25);
+  color: rgb(231, 231, 231);
+  border: none;
+}
+
+.approveBtn:hover {
+  background-color: rgb(38, 71, 38);
+  box-shadow: 0 2px 8px rgba(38, 71, 38, 0.2);
+}
+
+.approveBtn:active {
+  transform: scale(0.96);
+}
+
+.disapproveBtn {
+  background-color: transparent;
+  color: #d32f2f;
+  border: 1px solid #d32f2f;
+}
+
+.disapproveBtn:hover {
+  background-color: #ffebee; 
+}
+
+.disapproveBtn:active {
+  transform: scale(0.96);
+}
+
+

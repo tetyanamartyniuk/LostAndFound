@@ -63,10 +63,16 @@ class ItemService {
   }
 
   async getItemById(id: number): Promise<Item> {
-    const item = await this.itemRepo.findOneBy({ id: id });
+    const item = await this.itemRepo.findOne({
+      where: {
+        id: id,
+      },
+      relations: ["user"],
+    });
     if (!item) {
       throw new NotFoundError(`Item with id ${id} wasn't found`);
     }
+    console.log(item);
     return item;
   }
 

@@ -77,8 +77,12 @@ export function ChatLayout() {
       </aside>
 
       <div className={styles.chatContainer}>
-        <h1>{item?.title}</h1>
-        <h2>Your chat with {partner?.username}</h2>
+        <div className={styles.chatHeader}>
+          <h1>{item?.title}</h1>
+          <h2>
+            Your chat with {item.user?.username ? item.user?.username : ""}
+          </h2>
+        </div>
 
         <div className={styles.messagesList}>
           {messages.map((message) => (

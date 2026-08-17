@@ -1,0 +1,22 @@
+.panelCard {
+  width: fit-content;
+  background-color: rgb(240, 240, 240);
+  border-radius: 16px;
+  padding: 24px 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.panelHeading {
+  font-size: 24px;
+  color: rgb(50, 50, 50);
+  margin-top: 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgb(220, 220, 220);
+  padding-bottom: 16px;
+}
+
+.panelContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

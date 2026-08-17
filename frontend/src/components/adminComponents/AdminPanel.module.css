@@ -1,0 +1,45 @@
+.adminPage {
+    width: 100%;
+  margin: 0;
+  padding: 32px 24px;
+  
+}
+
+.pageTitle {
+  font-size: 28px;
+  color: rgb(50, 50, 50);
+  margin-bottom: 32px;
+  text-align: center;
+  margin-top: 0;
+}
+
+.adminLayout {
+  display: flex;
+  flex-direction: row;
+  gap: 40px; 
+  justify-content: center;
+  align-items: center;
+}
+
+.categoriesColumn {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+}
+
+.pendingColumn {
+  min-width: 0; 
+    min-width: 0;
+  width: 100%;
+  flex: 1.5;
+}
+
+.verticalDivider {
+  width: 1px; 
+  background-color: rgb(220, 220, 220); 
+  
+  align-self: stretch; 
+}

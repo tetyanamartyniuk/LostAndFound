@@ -25,6 +25,7 @@ export function FileInput() {
     <div className={styles.container}>
       <label className={styles.fileLabel}>
         <input
+          name="image"
           type="file"
           multiple
           onChange={handleFileChange}

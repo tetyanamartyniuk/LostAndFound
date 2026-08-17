@@ -11,6 +11,7 @@ export function ItemCard({ item }: ItemProps) {
   const imageUrl = hasImage
     ? `http://localhost:8080/uploads/${item.image![0]}`
     : "http://localhost:8080/uploads/blankimage.jpg";
+  console.log("imageUrl", imageUrl);
   return (
     <div onClick={handleCardClick} className={styles.itemContainer}>
       <li>

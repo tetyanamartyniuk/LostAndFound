@@ -11,6 +11,7 @@ type AuthContextType = {
   currUser: userPayload | null;
   authenticated: boolean;
   setCurrUser: (user: userPayload | null) => void;
+  setAuthenticated: (auth: boolean) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,7 +44,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currUser, authenticated, setCurrUser }}>
+    <AuthContext.Provider
+      value={{ currUser, authenticated, setCurrUser, setAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );

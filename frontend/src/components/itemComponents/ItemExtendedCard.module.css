@@ -1,0 +1,51 @@
+.container{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+        align-items: center;
+
+}
+
+.itemDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.itemTitle{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: rgb(19, 61, 20);;
+}
+.actionBtns{
+    margin-top: 10px;
+}
+
+.contactBtn{
+      border: 1px solid rgb(23, 54, 19);
+      border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+     background-color:rgb(19, 61, 20);
+    color:rgb(234, 234, 234);
+    font-weight: 100;
+}
+
+
+.deleteBtn{
+      border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+    font-weight: 100;
+    background-color: #ff000075;
+  color: #fffcfc;
+  border: 1px solid #d32f2f;
+}
+
+.deleteBtn:hover{
+        background-color: #ff0000;
+    transform: scale(0.98);
+      color: white;
+
+}

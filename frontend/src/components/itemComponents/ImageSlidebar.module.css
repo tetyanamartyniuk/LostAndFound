@@ -1,0 +1,62 @@
+.sliderWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px; 
+  margin: 0 auto;
+}
+
+.imageContainer {
+  display: flex;
+  overflow-x: auto; /* Дозволяє скролити по горизонталі */
+  scroll-snap-type: x mandatory; /* МАГІЯ: вмикає примагнічування */
+  scroll-behavior: smooth; /* Плавна прокрутка при кліку на кнопки */
+  gap: 10px;
+  
+  /* Ховаємо некрасивий системний скролбар */
+  scrollbar-width: none; 
+}
+.imageContainer::-webkit-scrollbar {
+  display: none;
+}
+
+/* Окрема фотографія */
+.imageItem {
+  flex: 0 0 100%; /* Фотографія завжди займає 100% ширини контейнера */
+  width: 100%;
+  height: 300px;
+  object-fit: cover; /* Щоб фото не розтягувалося, а красиво обрізалося */
+  border-radius: 12px;
+  
+  scroll-snap-align: center; /* МАГІЯ: фото зупиняється чітко по центру */
+}
+
+/* Кнопки Вліво/Вправо */
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.navBtn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.prevBtn {
+  left: 10px;
+}
+
+.nextBtn {
+  right: 10px;
+}

@@ -1,0 +1,32 @@
+.chatList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chatItem {
+  display: block;
+  padding: 16px;
+  background-color: #ffffff;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgb(50, 50, 50);
+  transition: all 0.2s ease;
+}
+
+.chatItem:hover {
+  background-color: rgb(240, 240, 240);
+  border-color: rgb(200, 200, 200);
+}
+
+.previewText {
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Додає "..." якщо текст не влазить */
+}

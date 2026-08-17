@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { itemService } from "../../services/itemService";
 import type { Item } from "../../types/Item";
+import styles from "./PendingItems.module.css"; // Додано імпорт стилів
+import { ImageSlidebar } from "../itemComponents/ImageSlidebar";
 
 export function PendingItems() {
   const [pendingItems, setPendingItems] = useState<Item[]>([]);
+
   useEffect(() => {
     const fetchPendingItems = async () => {
       try {
@@ -47,20 +50,55 @@ export function PendingItems() {
   };
 
   return (
-    <div>
-      <ul>
-        {pendingItems.map((pendingItem) => (
-          <li key={pendingItem.id}>
-            {pendingItem.title}
-            <button onClick={() => handleApprove(pendingItem.id)}>
-              Approve
-            </button>
-            <button onClick={() => handleDisapprove(pendingItem.id)}>
-              Disapprove
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Pending Items ({pendingItems.length})</h2>
+
+      {pendingItems.length === 0 ? (
+        <p className={styles.emptyMessage}>
+          There are no items waiting for approval.
+        </p>
+      ) : (
+        <ul className={styles.itemList}>
+          {pendingItems.map((pendingItem) => (
+            <li key={pendingItem.id} className={styles.listItem}>
+              <ImageSlidebar
+                imageUrls={
+                  pendingItem.image?.map(
+                    (image) =>
+                      image && `http://localhost:8080/uploads/${image}`,
+                  ) || ["http://localhost:8080/uploads/blankimage.jpg"]
+                }
+              ></ImageSlidebar>
+              <div>
+                <div className={styles.pendingItemInfo}>
+                  <span className={styles.itemTitle}>{pendingItem.title}</span>
+                  <p className={styles.itemDescription}>
+                    {pendingItem.description}
+                  </p>
+                  <p className={styles.itemStatus}>
+                    {pendingItem.status}: {pendingItem.foundAt.toString()}
+                  </p>
+                </div>
+
+                <div className={styles.actionButtons}>
+                  <button
+                    className={styles.approveBtn}
+                    onClick={() => handleApprove(pendingItem.id)}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className={styles.disapproveBtn}
+                    onClick={() => handleDisapprove(pendingItem.id)}
+                  >
+                    Disapprove
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

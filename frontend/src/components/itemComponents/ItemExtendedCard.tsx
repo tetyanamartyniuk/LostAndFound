@@ -4,7 +4,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import type { userPayload } from "../../types/User";
 import { itemService } from "../../services/itemService";
 import { useAuth } from "../../context/AuthContext";
-import { SearchByName } from "../filterComponents/SearchByName";
+import { ImageSlidebar } from "./ImageSlidebar";
+import styles from "./ItemExtendedCard.module.css";
 
 export function ItemExtendedCard() {
   const [item, setItem] = useState<Item | null>(null);
@@ -44,31 +45,46 @@ export function ItemExtendedCard() {
   if (!item) return <p>This item wasn`t found</p>;
   const isOwner = currUser !== null && currUser.id === item?.userId;
 
-  const hasImage = item.image && item.image.length > 0;
-  const imageUrl = hasImage
-    ? `http://localhost:8080/uploads/${item.image![0]}`
-    : "http://localhost:8080/uploads/blankimage.jpg";
+  console.log("item.image: ", item.image);
+  const imageUrls = [];
+  if (item.image && item.image.length > 0) {
+    for (let i = 0; i < item.image?.length; i++) {
+      imageUrls.push(`http://localhost:8080/uploads/${item.image![i]}`);
+    }
+  } else {
+    imageUrls.push("http://localhost:8080/uploads/blankimage.jpg");
+  }
+  console.log("imageUrls", imageUrls);
+
   return (
     <>
-      <div>
-        <img src={imageUrl} style={{ width: 400 }} alt={item.title} />
-        <h1>{item.title}</h1>
-        <p>{item.description}</p>
-        <p>{item.foundAt.toString()}</p>
-        <p>{item.place}</p>
-        <p>{item.status}</p>
-      </div>
-      {isOwner && (
+      <div className={styles.container}>
+        <ImageSlidebar imageUrls={imageUrls}></ImageSlidebar>
         <div>
-          <button onClick={handleDelete}>Delete item</button>
-          <button>Update item</button>
+          <div className={styles.itemDetails}>
+            <h1 className={styles.itemTitle}>{item.title}</h1>
+            <p>{item.description}</p>
+            <p>
+              {item.status}: {item.foundAt.toString()}
+            </p>
+            <p>where: {item.place}</p>
+          </div>
+          <div className={styles.actionBtns}>
+            {isOwner && (
+              <div>
+                <button onClick={handleDelete} className={styles.deleteBtn}>
+                  Delete item
+                </button>
+              </div>
+            )}
+            {!isOwner && (
+              <Link to={`/chats/item/${item.id}`} className={styles.contactBtn}>
+                Contact poster ✉
+              </Link>
+            )}
+          </div>
         </div>
-      )}
-      {!isOwner && (
-        <Link to={`/chats/item/${item.id}`} className="my-button-style">
-          Contact poster
-        </Link>
-      )}
+      </div>
     </>
   );
 }

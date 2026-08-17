@@ -10,6 +10,7 @@ export const categoryService = {
     const data: ServerResponse<Category[]> = await response.json();
     return data.data;
   },
+
   createCategory: async (category: CreateCategoryDto): Promise<Category> => {
     console.log(category);
     const response = await fetch("/api/categories", {
@@ -19,6 +20,7 @@ export const categoryService = {
       },
       body: JSON.stringify(category),
     });
+    console.log(response);
     if (!response.ok) {
       throw new Error("Failed to create the category");
     }

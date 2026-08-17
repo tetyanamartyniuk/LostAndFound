@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Conversation } from "../../types/Chat";
 import { chatService } from "../../services/chatService";
 import { Link } from "react-router-dom";
+import styles from "./ChatSidebar.module.css";
 
 export function ChatSidebar() {
   const [chats, setChats] = useState<Conversation[]>([]);
@@ -18,14 +19,14 @@ export function ChatSidebar() {
     fetchChats();
   }, []);
   return (
-    <>
+    <ul className={styles.chatList}>
       {chats.map((chat) => (
         <li key={chat.id}>
-          <Link to={`/chats/item/${chat.itemId}`} className="my-button-style">
-            {chat.messages[0].text}
+          <Link to={`/chats/item/${chat.itemId}`} className={styles.chatItem}>
+            <span className={styles.previewText}>{chat.messages[0].text}</span>
           </Link>
         </li>
       ))}
-    </>
+    </ul>
   );
 }

@@ -6,6 +6,7 @@ export type Item = {
   foundAt: Date;
   status: "lost" | "found";
   userId: number;
+  user?: User;
   image?: string[] | null;
 };
 
